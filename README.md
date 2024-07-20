@@ -1,2 +1,2 @@
 # CoIR
-Composed Image Retrieval
+Composed Image Retrieval (CoIR)
