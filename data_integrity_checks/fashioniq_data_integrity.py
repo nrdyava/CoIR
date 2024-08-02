@@ -403,5 +403,3 @@ else:
     print("   Failed Triangular Consistency - 3:")
 
 print("\n"+"-"*100+"\n")
-
-
