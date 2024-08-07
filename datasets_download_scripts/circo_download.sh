@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd datasets
 echo "Donwloading CIRCO dataset main files from \"https://github.com/miccunifi/CIRCO\""
 
 git clone https://github.com/miccunifi/CIRCO.git

@@ -1,4 +1,5 @@
 #!/bin/bash
+cd datasets
 echo "Downloading FashionIQ Dataset from \"https://huggingface.co/datasets/Plachta/FashionIQ\""
 
 wget https://huggingface.co/datasets/Plachta/FashionIQ/resolve/main/fashionIQ_dataset.rar?download=true -O FashionIQ.rar

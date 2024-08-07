@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd datasets
 echo "Downloading LaSCO dataset main files from \"https://github.com/levymsn/LaSCo?tab=readme-ov-file#lasco-dataset\""
 
 mkdir LaSCo

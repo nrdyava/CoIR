@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd datasets
 echo "Downloading CIRR main files from \"https://github.com/Cuberick-Orion/CIRR\""
 
 git clone -b cirr_dataset https://github.com/Cuberick-Orion/CIRR.git CIRR
