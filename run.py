@@ -7,6 +7,7 @@ import yaml
 import logging
 import copy
 from src.utils.runner_utils import parse_args, register_run, get_logger
+from src.utils.config_check import check_config
 
 if __name__ == "__main__":
     run_start_time_utc = datetime.now(pytz.utc)
@@ -24,3 +25,5 @@ if __name__ == "__main__":
     register_run(args, run_start_time_local, config, run_dir, logger)
 
     yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
+
+    check_config(config, logger)

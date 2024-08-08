@@ -6,3 +6,91 @@ notes: testing the runner code
 results of the run are stored at: runs/2024-08-07-20-54-55-839522
 
 ==================================================================================================================
+
+run start time: 2024-08-08-17-33-43-167523 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-33-43-167523
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-35-16-516253 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-35-16-516253
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-35-35-317332 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-35-35-317332
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-36-01-703890 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-36-01-703890
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-36-30-538867 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-36-30-538867
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-37-02-562062 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-37-02-562062
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-37-34-466187 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-37-34-466187
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-38-09-599343 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-38-09-599343
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-38-25-154175 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-38-25-154175
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-39-45-229378 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-39-45-229378
+
+==================================================================================================================
+
+run start time: 2024-08-08-17-39-55-980490 US/Eastern
+run name: config_check
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-08-17-39-55-980490
+
+==================================================================================================================

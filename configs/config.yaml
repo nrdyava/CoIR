@@ -4,21 +4,21 @@ dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
 load_data_into_memory: False   # choices: [True, False]
 model_to_use:
   choose_model_category: clip
-  choose_model: CLIP-ViT-L/14@336
+  choose_model_name: CLIP-ViT-L/14@336
+checkpoint_path: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"  # Useful for training_type: start_from_checkpoint, finetune_pretrained
   
 
 
-model_registry:
+model_registry: &model_registry
   models_categories_available: [clip]
   models_by_category:
     clip:
-      pretrained_models:
-        options: ["CLIP-ViT-B/16", "CLIP-ViT-B/32", "CLIP-ViT-L/14", "CLIP-ViT-L/14@336"]
-        checkpoints:
-          "CLIP-ViT-B/16": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16"
-          "CLIP-ViT-B/32": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"
-          "CLIP-ViT-L/14": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14"
-          "CLIP-ViT-L/14@336": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"
+      options: [CLIP-ViT-B/16, CLIP-ViT-B/32, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+      checkpoints:
+        CLIP-ViT-B/16: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16"
+        CLIP-ViT-B/32: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"
+        CLIP-ViT-L/14: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14"
+        CLIP-ViT-L/14@336: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"
 
 
 
