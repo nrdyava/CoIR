@@ -1,0 +1,8 @@
+
+run start time: 2024-08-07-20-54-55-839522 US/Eastern
+run name: test_run
+configuration file path: configs/config.yaml
+notes: testing the runner code
+results of the run are stored at: runs/2024-08-07-20-54-55-839522
+
+==================================================================================================================
