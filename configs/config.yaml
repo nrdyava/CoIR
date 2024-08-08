@@ -1,2 +1,21 @@
-runs_dir: 'runs'
 local_time_zone: 'US/Eastern'
+
+runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
+
+load_data_into_memory: "False"
+
+data:
+  options: ["lasco", "fashioniq", "cirr", "circo"]
+  lasco:
+    dir: "/proj/vondrick2/nd2794/CoIR/data/LaSCo"
+    splits: ["train", "val"]
+  fashioniq:
+    dir: "/proj/vondrick2/nd2794/CoIR/data/FashionIQ"
+    splits: ["train", "val", "test"]
+  cirr:
+    dir: "/proj/vondrick2/nd2794/CoIR/data/CIRR"
+    splits: ["train", "val", "test1"]
+  circo:
+    dir: "/proj/vondrick2/nd2794/CoIR/data/CIRCO"
+    splits: ["val", "test"]
+  

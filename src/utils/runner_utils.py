@@ -6,9 +6,6 @@ import yaml
 import logging
 import copy
 
-
-
-
 def parse_args():
     parser=argparse.ArgumentParser()
     parser.add_argument('--config_file', type=str, required=True, help='configuration file path for the task ', dest='config_file')
