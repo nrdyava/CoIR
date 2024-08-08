@@ -1,11 +1,28 @@
-local_time_zone: 'US/Eastern'
+task: train       # choices: [train, test_only]
+training_type: finetune_pretrained        # choices: [finetune_pretrained, start_from_checkpoint, train_from_scratch]
+dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
+load_data_into_memory: False   # choices: [True, False]
+model_to_use:
+  choose_model_category: clip
+  choose_model: CLIP-ViT-L/14@336
+  
 
-runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
 
-load_data_into_memory: "False"
+model_registry:
+  models_categories_available: [clip]
+  models_by_category:
+    clip:
+      pretrained_models:
+        options: ["CLIP-ViT-B/16", "CLIP-ViT-B/32", "CLIP-ViT-L/14", "CLIP-ViT-L/14@336"]
+        checkpoints:
+          "CLIP-ViT-B/16": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16"
+          "CLIP-ViT-B/32": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"
+          "CLIP-ViT-L/14": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14"
+          "CLIP-ViT-L/14@336": "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"
+
+
 
 data:
-  options: ["lasco", "fashioniq", "cirr", "circo"]
   lasco:
     dir: "/proj/vondrick2/nd2794/CoIR/data/LaSCo"
     splits: ["train", "val"]
@@ -18,4 +35,8 @@ data:
   circo:
     dir: "/proj/vondrick2/nd2794/CoIR/data/CIRCO"
     splits: ["val", "test"]
-  
+
+
+
+runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
+local_time_zone: 'US/Eastern'
