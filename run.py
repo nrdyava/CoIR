@@ -8,6 +8,8 @@ import logging
 import copy
 from src.utils.runner_utils import parse_args, register_run, get_logger
 from src.utils.config_check import check_config
+from src.datasets.lasco_datasets import lasco_dataset_train
+from torch.utils.data import Dataset, DataLoader
 
 if __name__ == "__main__":
     run_start_time_utc = datetime.now(pytz.utc)
@@ -27,3 +29,17 @@ if __name__ == "__main__":
     yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
 
     check_config(config, logger)
+    os.environ['TOKENIZERS_PARALLELISM'] = config['TOKENIZERS_PARALLELISM']
+
+    train_dataset = lasco_dataset_train(config, logger)
+    
+    dataloader = DataLoader(train_dataset, batch_size=64, shuffle=False, num_workers = 0, collate_fn = train_dataset.collate_fn, pin_memory =  True)
+
+    for i, batch in enumerate(dataloader):
+        print(f" ------------------------------------- {i} -------------------------------")
+        print(batch)
+        if i == 5:
+            break
+    
+    #set all random seeds
+

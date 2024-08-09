@@ -6,10 +6,10 @@ model_to_use:
   choose_model_category: clip
   choose_model_name: CLIP-ViT-L/14@336
 checkpoint_path: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"  # Useful for training_type: start_from_checkpoint, finetune_pretrained
-  
+read_n_process_threads: 16
 
 
-model_registry: &model_registry
+model_registry:
   models_categories_available: [clip]
   models_by_category:
     clip:
@@ -37,6 +37,6 @@ data:
     splits: ["val", "test"]
 
 
-
 runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
 local_time_zone: 'US/Eastern'
+TOKENIZERS_PARALLELISM: "true"    # choices: ["true", "false"]  
