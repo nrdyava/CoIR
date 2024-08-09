@@ -118,3 +118,19 @@ notes: No notes mentioned
 results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-09-01-30-46-100670
 
 ==================================================================================================================
+
+run start time: 2024-08-09-02-17-49-677135 US/Eastern
+run name: data_loader_test
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-09-02-17-49-677135
+
+==================================================================================================================
+
+run start time: 2024-08-09-02-20-14-370858 US/Eastern
+run name: val_data_loader_test
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-09-02-20-14-370858
+
+==================================================================================================================

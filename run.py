@@ -8,7 +8,7 @@ import logging
 import copy
 from src.utils.runner_utils import parse_args, register_run, get_logger
 from src.utils.config_check import check_config
-from src.datasets.lasco_datasets import lasco_dataset_train
+from src.datasets.lasco_datasets import lasco_dataset_train, lasco_dataset_val
 from torch.utils.data import Dataset, DataLoader
 
 if __name__ == "__main__":
@@ -31,15 +31,27 @@ if __name__ == "__main__":
     check_config(config, logger)
     os.environ['TOKENIZERS_PARALLELISM'] = config['TOKENIZERS_PARALLELISM']
 
-    train_dataset = lasco_dataset_train(config, logger)
-    
-    dataloader = DataLoader(train_dataset, batch_size=64, shuffle=False, num_workers = 0, collate_fn = train_dataset.collate_fn, pin_memory =  True)
+    """
+    #train_dataset = lasco_dataset_train(config, logger)
+    #train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=False, num_workers = 0, collate_fn = train_dataset.collate_fn, pin_memory =  True)
 
-    for i, batch in enumerate(dataloader):
+    for i, batch in enumerate(train_dataloader):
         print(f" ------------------------------------- {i} -------------------------------")
         print(batch)
         if i == 5:
             break
+    """
+    """
+    val_dataset = lasco_dataset_val(config, logger)
+    val_dataloader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers = 0, collate_fn = val_dataset.collate_fn, pin_memory =  True)
+
+    for i, batch in enumerate(val_dataloader):
+        print(f" ------------------------------------- {i} -------------------------------")
+        print(batch)
+        if i == 5:
+            break
+    """
+
     
     #set all random seeds
 
