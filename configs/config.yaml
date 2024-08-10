@@ -1,25 +1,20 @@
 task: train       # choices: [train, test_only]
-training_type: finetune_pretrained        # choices: [finetune_pretrained, start_from_checkpoint, train_from_scratch]
 dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
-load_data_into_memory: False   # choices: [True, False]
-model_to_use:
-  choose_model_category: clip
-  choose_model_name: CLIP-ViT-L/14@336
-checkpoint_path: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"  # Useful for training_type: start_from_checkpoint, finetune_pretrained
-read_n_process_threads: 16
+checkpoint_path: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"  # Useful for training_type: start_from_checkpoint, finetune_pretrained
 
+image_encoder_mode: train # choices: [train, freeze]
+text_encoder_mode: train # choices: [train, freeze]
 
-model_registry:
-  models_categories_available: [clip]
-  models_by_category:
-    clip:
-      options: [CLIP-ViT-B/16, CLIP-ViT-B/32, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
-      checkpoints:
-        CLIP-ViT-B/16: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16"
-        CLIP-ViT-B/32: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"
-        CLIP-ViT-L/14: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14"
-        CLIP-ViT-L/14@336: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"
+loss_fn:
+  name: "vanilla_constrastive_cross_entrpy_loss"
+  dotp_clip: 100
+  temperature: 0.07
+  train_temperature: False # choices: [True, False]
 
+trainer:
+  lr: 1e-5
+
+runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
 
 
 data:
@@ -36,7 +31,17 @@ data:
     dir: "/proj/vondrick2/nd2794/CoIR/data/CIRCO"
     splits: ["val", "test"]
 
+model_registry:
+  models_categories_available: [clip]
+  models_by_category:
+    clip:
+      options: [CLIP-ViT-B/16, CLIP-ViT-B/32, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+      checkpoints:
+        CLIP-ViT-B/16: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16"
+        CLIP-ViT-B/32: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32"
+        CLIP-ViT-L/14: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14"
+        CLIP-ViT-L/14@336: "/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336"
 
-runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
+
 local_time_zone: 'US/Eastern'
 TOKENIZERS_PARALLELISM: "true"    # choices: ["true", "false"]  

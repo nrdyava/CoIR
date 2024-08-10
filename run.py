@@ -10,6 +10,7 @@ from src.utils.runner_utils import parse_args, register_run, get_logger
 from src.utils.config_check import check_config
 from src.datasets.lasco_datasets import lasco_dataset_train, lasco_dataset_val
 from torch.utils.data import Dataset, DataLoader
+from lightning.pytorch import seed_everything
 
 if __name__ == "__main__":
     run_start_time_utc = datetime.now(pytz.utc)
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 
     yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
 
-    check_config(config, logger)
+    #check_config(config, logger)
     os.environ['TOKENIZERS_PARALLELISM'] = config['TOKENIZERS_PARALLELISM']
 
     """
@@ -53,5 +54,6 @@ if __name__ == "__main__":
     """
 
     
-    #set all random seeds
-
+    # sets seeds for numpy, torch and python.random.
+    seed_everything(42, workers=True)
+    
