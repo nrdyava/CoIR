@@ -1,0 +1,368 @@
+
+run start time: 2024-08-10-12-40-54-095791 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-40-54-095791
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-42-12-334877 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-42-12-334877
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-43-15-230204 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-43-15-230204
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-43-52-643064 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-43-52-643064
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-19-106492 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-19-106492
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-033439 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-033439
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-119063 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-119063
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-163788 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-163788
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-119546 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-119546
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-125207 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-125207
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-182451 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-182451
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-44-24-237226 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-44-24-237226
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-46-35-009670 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-46-35-009670
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-04-176817 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-04-176817
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-11-813709 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-11-813709
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-11-812747 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-11-812747
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-12-014769 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-12-014769
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-12-145748 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-12-145748
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-12-224480 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-12-224480
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-12-264250 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-12-264250
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-47-12-421482 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-47-12-421482
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-03-861078 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-03-861078
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-588793 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-588793
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-590062 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-590062
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-782057 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-782057
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-858528 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-858528
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-878538 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-878538
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-13-894295 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-13-894295
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-52-14-072715 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-52-14-072715
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-32-096188 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-32-096188
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-40-913281 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-40-913281
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-40-933139 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-40-933139
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-41-038526 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-41-038526
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-41-160070 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-41-160070
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-41-236013 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-41-236013
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-41-305307 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-41-305307
+
+==================================================================================================================
+
+run start time: 2024-08-10-12-58-41-354289 US/Eastern
+run name: testing_pipeline
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-12-58-41-354289
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-06-47-249417 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-06-47-249417
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-35-378718 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-35-378718
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-121240 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-121240
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-230665 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-230665
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-293325 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-293325
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-288526 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-288526
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-477468 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-477468
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-499328 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-499328
+
+==================================================================================================================
+
+run start time: 2024-08-10-13-07-43-509482 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-13-07-43-509482
+
+==================================================================================================================
