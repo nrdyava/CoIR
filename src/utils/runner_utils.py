@@ -17,6 +17,7 @@ def parse_args():
 
 
 def register_run(args, run_start_time_local, config, run_dir, logger):
+    logger.info(f"Regirsting the run in the run_registry.txt file")
     write_text = f"\n"
     ltz = config["local_time_zone"]
     write_text += f"run start time: {run_start_time_local} {ltz}\n"
@@ -34,6 +35,8 @@ def register_run(args, run_start_time_local, config, run_dir, logger):
 
     with open('run_registry.txt', 'a') as file:
         file.write(write_text)
+    
+    logger.info(f"Run registered successfully in the run_registry.txt file")
 
 
 
