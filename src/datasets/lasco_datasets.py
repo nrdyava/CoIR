@@ -9,12 +9,10 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 class lasco_dataset_train(Dataset):
-    def __init__(self, config, logger):
+    def __init__(self, config):
         self.config = config
-        self.logger = logger
-        self.read_n_process_threads = config["read_n_process_threads"]
+        #self.read_n_process_threads = config["read_n_process_threads"]
         self.lasco_data_path = config['data']['lasco']['dir']
-        self.logger.info(f"Loading LASCO-Train dataset from {self.lasco_data_path}")
 
         # Image processor & tokenizer
         self.image_processor = AutoProcessor.from_pretrained(config["checkpoint_path"])
@@ -28,12 +26,10 @@ class lasco_dataset_train(Dataset):
         all_target_images = list(map(lambda x: x['target-image'][1], lasco_json))
         all_images = list(set(all_query_images+all_target_images))
 
-        self.logger.info("Loading images to memory")
         all_images_paths_n_names = list(map(lambda x: (os.path.join(self.lasco_data_path, 'coco', x), x), all_images))
         with ThreadPoolExecutor(max_workers=self.read_n_process_threads) as executor:
             results = executor.map(self.load_and_process_image, all_images_paths_n_names)
             self.image_pixvals_map = dict(results)
-        self.logger.info("Loading images to memory - Done")
         """
 
     def load_and_process_image(self, paths_n_names):
@@ -66,12 +62,10 @@ class lasco_dataset_train(Dataset):
 
 
 class lasco_dataset_val(Dataset):
-    def __init__(self, config, logger):
+    def __init__(self, config):
         self.config = config
-        self.logger = logger
-        self.read_n_process_threads = config["read_n_process_threads"]
+        #self.read_n_process_threads = config["read_n_process_threads"]
         self.lasco_data_path = config['data']['lasco']['dir']
-        self.logger.info(f"Loading LASCO-Val dataset from {self.lasco_data_path}")
 
         # Image processor & tokenizer
         self.image_processor = AutoProcessor.from_pretrained(config["checkpoint_path"])
@@ -85,12 +79,10 @@ class lasco_dataset_val(Dataset):
         all_target_images = list(map(lambda x: x['target-image'][1], lasco_json))
         all_images = list(set(all_query_images+all_target_images))
 
-        self.logger.info("Loading images to memory")
         all_images_paths_n_names = list(map(lambda x: (os.path.join(self.lasco_data_path, 'coco', x), x), all_images))
         with ThreadPoolExecutor(max_workers=self.read_n_process_threads) as executor:
             results = executor.map(self.load_and_process_image, all_images_paths_n_names)
             self.image_pixvals_map = dict(results)
-        self.logger.info("Loading images to memory - Done")
         """
 
 
