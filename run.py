@@ -42,6 +42,9 @@ if __name__ == "__main__":
     # check_config(config, logger)
     os.environ['TOKENIZERS_PARALLELISM'] = config['TOKENIZERS_PARALLELISM']
     logger.info('TOKENIZERS_PARALLELISM is set to : {}'.format(config['TOKENIZERS_PARALLELISM']))
+
+    # CUDA LAUNCH BLOCKING to report CUDA errors
+    os.environ['CUDA_LAUNCH_BLOCKING'] = "1" 
     # sets seeds for numpy, torch and python.random.
     seed_everything(42, workers=True)
 
