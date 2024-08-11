@@ -6,6 +6,7 @@ import pytz
 import yaml
 import logging
 import copy
+import torch
 from torch.utils.data import Dataset, DataLoader
 from lightning.pytorch import seed_everything
 
@@ -26,17 +27,17 @@ if __name__ == "__main__":
     # create a directory to store the results of the run
     runs_dir = config["runs_dir"]
     run_dir = os.path.join(runs_dir, run_start_time_local)
-    os.mkdir(run_dir)
+    #os.mkdir(run_dir)
     config['run_dir'] = run_dir
     config['wandb_name'] = run_start_time_local
 
     # create a logger to log the results of the run
     logger = get_logger(run_dir, config)
     # register the run in the run_registry.txt file
-    register_run(args, run_start_time_local, config, run_dir, logger)
+    #register_run(args, run_start_time_local, config, run_dir, logger)
 
     # save the configuration file in the run directory. Usefule to later check the configuration used for the run.
-    yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
+    #yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
 
     # check_config(config, logger)
     os.environ['TOKENIZERS_PARALLELISM'] = config['TOKENIZERS_PARALLELISM']
@@ -44,6 +45,7 @@ if __name__ == "__main__":
     # sets seeds for numpy, torch and python.random.
     seed_everything(42, workers=True)
 
+    torch.set_float32_matmul_precision('high')
     task_processor(config, logger)
 
 

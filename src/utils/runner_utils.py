@@ -9,8 +9,8 @@ import copy
 def parse_args():
     parser=argparse.ArgumentParser()
     parser.add_argument('--config_file', type=str, required=True, help='configuration file path for the task ', dest='config_file')
-    parser.add_argument('--run_name', type=str, required=True, help='name of the task you want to run', dest='run_name')
-    parser.add_argument('--notes', type=str, default = "No notes mentioned", help='write a note about the task you want to run', dest='notes')
+    #parser.add_argument('--run_name', type=str, required=True, help='name of the task you want to run', dest='run_name')
+    #parser.add_argument('--notes', type=str, default = "No notes mentioned", help='write a note about the task you want to run', dest='notes')
 
     args = parser.parse_args()
     return args
@@ -48,18 +48,18 @@ def get_logger(run_dir, config):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
-    file_handler = logging.FileHandler(os.path.join(run_dir, 'runner_log.log'))
-    file_handler.setLevel(logging.INFO)
+    #file_handler = logging.FileHandler(os.path.join(run_dir, 'runner_log.log'))
+    #file_handler.setLevel(logging.INFO)
 
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)
 
     formatter = CustomFormatter('%(asctime)s - %(levelname)s - %(message)s')
 
-    file_handler.setFormatter(formatter)
+    #file_handler.setFormatter(formatter)
     console_handler.setFormatter(formatter)
 
-    logger.addHandler(file_handler)
+    #.ogger.addHandler(file_handler)
     logger.addHandler(console_handler)
 
     return logger
