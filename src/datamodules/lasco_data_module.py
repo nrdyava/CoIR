@@ -24,8 +24,6 @@ class LASCODataModule(LightningDataModule):
         if stage == 'fit':
             self.train_dataset = lasco_dataset_train(self.config)
             self.val_dataset = lasco_dataset_val(self.config)
-            print(self.train_dataset.__len__())
-            print(self.val_dataset.__len__())
 
     def train_dataloader(self):
         return DataLoader(

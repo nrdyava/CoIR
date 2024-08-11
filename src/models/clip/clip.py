@@ -74,8 +74,8 @@ class CLIPModel(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds/torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1,  keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.dotp_clip)
-        self.log('train_loss', loss)
+        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
+        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
 
@@ -89,8 +89,8 @@ class CLIPModel(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds/torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1,  keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.dotp_clip)
-        self.log('val_loss', loss)
+        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
+        self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
 
 
     #def test_step(self, batch, batch_idx):
