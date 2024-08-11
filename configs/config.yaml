@@ -30,8 +30,8 @@ trainer:
   num_sanity_val_steps: 0
   enable_progress_bar: True
   enable_model_summary: True
-  deterministic: False
-  benchmark: False
+  deterministic: True
+  benchmark: True
   model_checkpoint_callback:
     every_n_epochs: 5
     monitor: 'val_loss'
