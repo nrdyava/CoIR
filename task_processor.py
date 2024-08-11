@@ -49,7 +49,7 @@ def task_processor(config, logger):
             deterministic=config['trainer']['deterministic'],
             benchmark=config['trainer']['benchmark'],
             use_distributed_sampler=config['trainer']['use_distributed_sampler'],
-            profiler=config['trainer']['profiler'],
+            profiler=None if config['trainer']['profiler']=='None' else config['trainer']['profiler'],
             default_root_dir=config['run_dir']
         )
 
