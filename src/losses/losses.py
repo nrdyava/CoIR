@@ -6,7 +6,14 @@ def vanilla_constrastive_cross_entrpy_loss(embeds_1, embeds_2, config):
     dotp = torch.nn.functional.cosine_similarity(embeds_1, embeds_2, dim=1)*torch.exp(config['loss_fn']['temperature'])
     dotp = torch.clamp(dotp, max = config['loss_fn']['dotp_clip'])
     labels = torch.ones(dotp.shape[0]).to(embeds_1.device)
-    return cross_entropy_loss(dotp, labels)
+    loss = cross_entropy_loss(dotp, labels)
+    return loss
+
+def BCE_loss_of_dotps(embeds_1, embeds_2, config):
+    bce_loss = torch.nn.BCELoss(reduction = 'mean')
+    dotp = torch.nn.functional.cosine_similarity(embeds_1, embeds_2, dim=1)
+    labels = torch.ones(dotp.shape[0]).to(embeds_1.device)
+    return bce_loss(dotp, labels)
 
 
 def cosine_embedding_loss(embeds_1, embeds_2, config):

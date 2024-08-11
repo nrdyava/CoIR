@@ -1262,3 +1262,923 @@ notes: No notes mentioned
 results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-19-10-19-626906
 
 ==================================================================================================================
+
+run start time: 2024-08-10-20-44-35-374538 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-44-35-374538
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-46-12-428050 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-46-12-428050
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-46-44-456534 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-46-44-456534
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-16-815141 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-16-815141
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-24-861132 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-24-861132
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-24-938844 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-24-938844
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-24-975731 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-24-975731
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-25-118512 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-25-118512
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-25-137049 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-25-137049
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-25-261301 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-25-261301
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-47-25-322044 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-47-25-322044
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-37-548059 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-37-548059
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-340238 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-340238
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-430812 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-430812
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-496022 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-496022
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-610077 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-610077
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-619041 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-619041
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-698367 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-698367
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-48-45-866363 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-48-45-866363
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-12-788313 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-12-788313
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-543140 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-543140
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-591977 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-591977
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-594724 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-594724
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-753156 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-753156
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-843341 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-843341
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-867329 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-867329
+
+==================================================================================================================
+
+run start time: 2024-08-10-20-51-21-969052 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-20-51-21-969052
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-05-54-463071 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-05-54-463071
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-066107 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-066107
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-130906 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-130906
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-163546 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-163546
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-234997 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-234997
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-307548 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-307548
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-409137 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-409137
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-04-556645 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-04-556645
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-47-780303 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-47-780303
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-034952 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-034952
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-036236 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-036236
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-034915 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-034915
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-034874 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-034874
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-035042 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-035042
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-175276 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-175276
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-06-56-185104 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-06-56-185104
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-20-915454 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-20-915454
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-28-752365 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-28-752365
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-28-876592 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-28-876592
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-28-936843 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-28-936843
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-28-937766 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-28-937766
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-29-029803 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-29-029803
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-29-132680 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-29-132680
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-08-29-204966 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-08-29-204966
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-42-263215 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-42-263215
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-51-653876 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-51-653876
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-51-729856 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-51-729856
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-51-811101 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-51-811101
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-51-881521 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-51-881521
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-52-072425 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-52-072425
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-52-163996 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-52-163996
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-10-52-174185 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-10-52-174185
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-05-287932 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-05-287932
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-464886 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-464886
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-545163 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-545163
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-552113 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-552113
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-576274 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-576274
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-745732 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-745732
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-830976 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-830976
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-12-13-913880 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-12-13-913880
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-42-109681 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-42-109681
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-50-941859 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-50-941859
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-50-960610 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-50-960610
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-51-100870 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-51-100870
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-51-189503 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-51-189503
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-51-317143 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-51-317143
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-51-340326 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-51-340326
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-13-51-430544 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-13-51-430544
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-36-55-612887 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-36-55-612887
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-03-997872 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-03-997872
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-091782 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-091782
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-159918 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-159918
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-271172 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-271172
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-488052 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-488052
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-508721 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-508721
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-37-04-599798 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-37-04-599798
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-18-652378 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-18-652378
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-26-977820 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-26-977820
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-033935 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-033935
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-061964 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-061964
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-185254 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-185254
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-223952 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-223952
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-297074 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-297074
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-39-27-469293 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-39-27-469293
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-46-639352 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-46-639352
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-467484 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-467484
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-453860 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-453860
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-525588 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-525588
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-600717 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-600717
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-684421 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-684421
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-777025 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-777025
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-40-54-800013 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-40-54-800013
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-15-048483 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-15-048483
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-282552 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-282552
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-327314 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-327314
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-376971 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-376971
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-501551 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-501551
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-635425 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-635425
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-701072 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-701072
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-43-23-785879 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-43-23-785879
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-44-59-394028 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-44-59-394028
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-408483 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-408483
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-524958 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-524958
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-540257 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-540257
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-718546 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-718546
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-820043 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-820043
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-917379 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-917379
+
+==================================================================================================================
+
+run start time: 2024-08-10-21-45-07-983981 US/Eastern
+run name: first_run
+configuration file path: configs/config.yaml
+notes: No notes mentioned
+results of the run are stored at: /proj/vondrick2/nd2794/CoIR/runs/2024-08-10-21-45-07-983981
+
+==================================================================================================================

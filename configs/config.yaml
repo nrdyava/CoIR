@@ -8,9 +8,9 @@ image_encoder_mode: train # choices: [train, freeze]
 text_encoder_mode: train # choices: [train, freeze]
 
 loss_fn:
-  name: 'cosine_embedding_loss'
+  name: 'BCE_loss_of_dotps'
   dotp_clip: 100
-  temperature: 0
+  temperature: 0.07
   train_temperature: False # choices: [True, False]
 
 trainer:
@@ -36,7 +36,7 @@ trainer:
     every_n_epochs: 5
     monitor: 'val_loss'
     mode: 'min'
-    save_top_k: -1
+    save_top_k: 0
     filename: 'checkpoint-{epoch:02d}-{val_loss:.4f}'
     enable_version_counter: True
 

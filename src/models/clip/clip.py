@@ -26,11 +26,6 @@ class CLIPModel(L.LightningModule):
 
         self.lr = config['optimizer']['lr']
 
-        if self.train_temperature == True:
-            self.temperature = torch.nn.Parameter(torch.tensor(self.temperature))
-        else:
-            self.temperature = torch.tensor(self.temperature)
-
         self.loss_fn = loss_fn_registry[config['loss_fn']['name']]
 
         #Models
@@ -75,7 +70,8 @@ class CLIPModel(L.LightningModule):
         target_hat_embeds = target_hat_embeds/torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1,  keepdim=True)
 
         loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
-        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        #self.log('lr', self.optimizer.lr, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
 
@@ -90,7 +86,7 @@ class CLIPModel(L.LightningModule):
         target_hat_embeds = target_hat_embeds/torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1,  keepdim=True)
 
         loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
-        self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
 
     #def test_step(self, batch, batch_idx):
@@ -98,5 +94,5 @@ class CLIPModel(L.LightningModule):
     #def predict_steps(self):
 
     def configure_optimizers(self):
-        optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, self.parameters()), lr=self.lr)
-        return optimizer
+        self.optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, self.parameters()), lr=self.lr)
+        return self.optimizer
