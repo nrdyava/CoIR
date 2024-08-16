@@ -25,7 +25,7 @@ def task_processor(config, logger):
             return
         
         wandb_logger = get_wandb_logger(config)
-        tb_logger = get_tb_logger(config)
+        #tb_logger = get_tb_logger(config)
         checkpoint_callback = get_checkpoint_callback(config)
 
         # Configure the trainer
@@ -35,11 +35,15 @@ def task_processor(config, logger):
             devices=config['trainer']['devices'],
             num_nodes=config['trainer']['num_nodes'],
             precision=config['trainer']['precision'],
-            logger=[wandb_logger, tb_logger],
+            logger=[wandb_logger],
             callbacks=[checkpoint_callback],
             fast_dev_run=config['trainer']['fast_dev_run'],
             max_epochs=config['trainer']['max_epochs'],
             min_epochs=config['trainer']['min_epochs'],
+            limit_train_batches = config['trainer']['limit_train_batches'],
+            limit_val_batches = config['trainer']['limit_val_batches'],
+            limit_test_batches = config['trainer']['limit_test_batches'],
+            limit_predict_batches = config['trainer']['limit_predict_batches'],
             check_val_every_n_epoch=config['trainer']['check_val_every_n_epoch'],
             num_sanity_val_steps=config['trainer']['num_sanity_val_steps'],
             log_every_n_steps=config['trainer']['log_every_n_steps'],
@@ -51,11 +55,16 @@ def task_processor(config, logger):
             use_distributed_sampler=config['trainer']['use_distributed_sampler'],
             profiler=None if config['trainer']['profiler']=='None' else config['trainer']['profiler'],
             default_root_dir=config['run_dir']
-        )
+            )
 
         datamodule.setup('fit')
 
-        trainer.fit(model, datamodule.train_dataloader(), datamodule.val_dataloader())
+        trainer.fit(
+            model, 
+            datamodule.train_dataloader(), 
+            datamodule.val_dataloader(), 
+            #ckpt_path = config['trainer']['ckpt_path']
+            )
 
     else:
         logger.error('task not recognized')

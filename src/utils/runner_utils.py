@@ -39,7 +39,6 @@ def register_run(args, run_start_time_local, config, run_dir, logger):
     logger.info(f"Run registered successfully in the run_registry.txt file")
 
 
-
 def get_logger(run_dir, config):
     class CustomFormatter(logging.Formatter):
         def formatTime(self, record, datefmt=None):

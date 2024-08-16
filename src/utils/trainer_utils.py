@@ -20,5 +20,6 @@ def get_checkpoint_callback(config):
         monitor=config['trainer']['model_checkpoint_callback']['monitor'],
         save_top_k=config['trainer']['model_checkpoint_callback']['save_top_k'],
         mode=config['trainer']['model_checkpoint_callback']['mode'],
-        every_n_epochs=config['trainer']['model_checkpoint_callback']['every_n_epochs']
+        every_n_epochs=config['trainer']['model_checkpoint_callback']['every_n_epochs'],
+        save_last=True,
         )
