@@ -22,7 +22,7 @@ from src.datasets.lasco_datasets import lasco_corpus_dataset, lasco_retrieval_da
 
 def main(config):
     # Set devices for the model and FAISS index
-    model_device = 'cuda: {}'.format(config['model_gpu_device_id'])
+    model_device = torch.device("cuda:{}".format(config['model_gpu_device_id']) if torch.cuda.is_available() else "cpu")
 
     if config['faiss_use_gpu'] == True:
         faiss_device = 'cuda: {}'.format(config['faiss_gpu_device_id'])
@@ -82,8 +82,9 @@ def main(config):
 
     for batch_idx, batch in tqdm(enumerate(corpus_dataloader)):
         with torch.no_grad():
+            batch['image']['pixel_values'] = batch['image']['pixel_values'].to(model_device)
             image_embeds = model.image_forward(batch)
-        index.add(image_embeds['image-embeds'].numpy())
+        index.add(image_embeds['image-embeds'].cpu().data.numpy())
 
         batch_len = len(batch['image-key'])
         batch_start_indx = index_cntr
@@ -101,12 +102,15 @@ def main(config):
 
     for batch_idx, batch in tqdm(enumerate(retrieval_dataloader)):
         with torch.no_grad():
+            batch['query-image']['pixel_values'] = batch['query-image']['pixel_values'].to(model_device)
+            batch['query-text']['input_ids'] = batch['query-text']['input_ids'].to(model_device)
+            batch['query-text']['attention_mask'] = batch['query-text']['attention_mask'].to(model_device)
             outs = model.retriever_forward(batch)
 
         target_hat_embeds = outs['query_image_embeds'] + outs['query_text_embeds']
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        D, I = index.search(target_hat_embeds, 50)
+        D, I = index.search(target_hat_embeds.cpu().data.numpy(), 50)
         I = map_func(I)
 
         batch_result_table = np.concatenate(
