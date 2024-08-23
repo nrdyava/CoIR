@@ -5,7 +5,7 @@ checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-pa
 
 
 dataloader:
-  batch_size: 50
+  batch_size: 2
   num_workers: 10
   pin_memory: True
   shuffle: False
