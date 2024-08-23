@@ -41,7 +41,12 @@ class CLIPModel(L.LightningModule):
                 
         self.save_hyperparameters()
 
-             
+    def image_forward(self, batch):
+        image = batch['image']
+        image_embeds = self.image_encoder(**image).image_embeds
+        image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1, keepdim=True)
+        return {'image-key': batch['image-key'], 'image-embeds': image_embeds}
+
     def forward(self, batch):
         query_image = batch['query-image']
         target_image = batch['target-image']
@@ -71,7 +76,25 @@ class CLIPModel(L.LightningModule):
 
         loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('lr', self.optimizer.lr, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+
+        ## Debug metrics here. Comment out when not needed
+        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
+        self.log('target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+
+        fixed_vector = torch.nn.functional.normalize(torch.ones_like(target_hat_embeds), p=2, dim=1)
+
+        target_hat_n_fv_cosine_sims = torch.nn.functional.cosine_similarity(target_hat_embeds, fixed_vector, dim=1)
+        target_hat_n_fv_cosine_sim_mean = torch.mean(target_hat_n_fv_cosine_sims)
+        target_hat_n_fv_cosine_sim_std = torch.std(target_hat_n_fv_cosine_sims)
+        self.log('target_hat_n_fv_cosine_sim_mean', target_hat_n_fv_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('target_hat_n_fv_cosine_sim_std', target_hat_n_fv_cosine_sim_std, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+
+        target_image_n_fv_cosine_sims = torch.nn.functional.cosine_similarity(target_image_embeds, fixed_vector, dim=1)
+        target_image_n_fv_cosine_sim_mean = torch.mean(target_image_n_fv_cosine_sims)
+        target_image_n_fv_cosine_sim_std = torch.std(target_image_n_fv_cosine_sims)
+        self.log('target_image_n_fv_cosine_sim_mean', target_image_n_fv_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('target_image_n_fv_cosine_sim_std', target_image_n_fv_cosine_sim_std, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+
         return loss
 
 
@@ -87,6 +110,24 @@ class CLIPModel(L.LightningModule):
 
         loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+
+        ## Debug metrics here. Comment out when not needed
+        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
+        self.log('target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+
+        fixed_vector = torch.nn.functional.normalize(torch.ones_like(target_hat_embeds), p=2, dim=1)
+
+        target_hat_n_fv_cosine_sims = torch.nn.functional.cosine_similarity(target_hat_embeds, fixed_vector, dim=1)
+        target_hat_n_fv_cosine_sim_mean = torch.mean(target_hat_n_fv_cosine_sims)
+        target_hat_n_fv_cosine_sim_std = torch.std(target_hat_n_fv_cosine_sims)
+        self.log('target_hat_n_fv_cosine_sim_mean', target_hat_n_fv_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('target_hat_n_fv_cosine_sim_std', target_hat_n_fv_cosine_sim_std, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+
+        target_image_n_fv_cosine_sims = torch.nn.functional.cosine_similarity(target_image_embeds, fixed_vector, dim=1)
+        target_image_n_fv_cosine_sim_mean = torch.mean(target_image_n_fv_cosine_sims)
+        target_image_n_fv_cosine_sim_std = torch.std(target_image_n_fv_cosine_sims)
+        self.log('target_image_n_fv_cosine_sim_mean', target_image_n_fv_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('target_image_n_fv_cosine_sim_std', target_image_n_fv_cosine_sim_std, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
 
     #def test_step(self, batch, batch_idx):
