@@ -63,7 +63,7 @@ def task_processor(config):
             model, 
             datamodule.train_dataloader(), 
             datamodule.val_dataloader(), 
-            #ckpt_path = config['trainer']['ckpt_path']
+            #ckpt_path = config['trainer']['pl_ckpt_path']
             )
 
     else:

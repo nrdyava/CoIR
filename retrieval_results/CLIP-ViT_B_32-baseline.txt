@@ -1,0 +1,65 @@
+Recall Type       Value
+-------------  --------
+Recall@1       0.000033
+Recall@5       0.053467
+Recall@10      0.087326
+Recall@50      0.224290
+
+
+
+
+results_file_name: retrieval_results/CLIP-ViT_B_32-baseline.txt
+dataset_to_use: lasco
+dataset_split: val
+eval_model_type: baseline
+d: 512
+pl_ckpt_path: /local/vondrick/nd2794/CoIR/runs/2024-08-23-07-40-28-025812/checkpoint-epoch=00-val_loss=0.0002349347.ckpt
+checkpoint_path: /local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32
+faiss_use_gpu: true
+faiss_gpu_device_id: 1
+model_gpu_device_id: 0
+dataloader:
+  batch_size: 100
+  num_workers: 20
+  pin_memory: true
+  shuffle: false
+  persistent_workers: true
+  drop_last: false
+seed: 42
+float32_matmul_precision: high
+data:
+  lasco:
+    dir: /local/vondrick/nd2794/CoIR/data/LaSCo
+    splits:
+    - train
+    - val
+  fashioniq:
+    dir: /local/vondrick/nd2794/CoIR/data/FashionIQ
+    splits:
+    - train
+    - val
+    - test
+  cirr:
+    dir: /local/vondrick/nd2794/CoIR/data/CIRR
+    splits:
+    - train
+    - val
+    - test1
+  circo:
+    dir: /local/vondrick/nd2794/CoIR/data/CIRCO
+    splits:
+    - val
+    - test
+TOKENIZERS_PARALLELISM: 'true'
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+
+
+
+
+
+#########################################################################
+
+
+
+

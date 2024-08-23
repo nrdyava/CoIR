@@ -221,7 +221,7 @@ class lasco_retrieval_dataset(Dataset):
             'query-image-id': triplet['query-image-id'],
             'query-image': self.load_and_process_image(os.path.join(self.lasco_data_path, 'coco', triplet['query-image'])),
             'target-image-id': triplet['target-image-id'],
-            'target-image': self.load_and_process_image(os.path.join(self.lasco_data_path, 'coco', triplet['target-image'])),
+            #'target-image': self.load_and_process_image(os.path.join(self.lasco_data_path, 'coco', triplet['target-image'])),
             'query-text': triplet['query-text']
         }
 
@@ -232,12 +232,12 @@ class lasco_retrieval_dataset(Dataset):
         query_image_ids = list(map(lambda x: x['query-image-id'], batch))
         target_image_ids = list(map(lambda x: x['target-image-id'], batch))
         query_image = {'pixel_values': torch.cat(list(map(lambda x: x['query-image']['pixel_values'], batch)), dim=0)}
-        target_image = {'pixel_values': torch.cat(list(map(lambda x: x['target-image']['pixel_values'], batch)), dim=0)}
+        #target_image = {'pixel_values': torch.cat(list(map(lambda x: x['target-image']['pixel_values'], batch)), dim=0)}
 
         return {
             'query-image-id': query_image_ids,
             'query-image': query_image,
             'target-image-id': target_image_ids,
-            'target-image': target_image,
+            #'target-image': target_image,
             'query-text': query_text
         }

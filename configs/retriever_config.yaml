@@ -1,12 +1,23 @@
+results_file_name: 'retrieval_results/CLIP-ViT_B_32-baseline.txt'
 dataset_to_use: lasco
 dataset_split: 'val'    #options:['train', 'val']
 
+eval_model_type: 'baseline'     # options: ['baseline', 'fine_tuned']
+d: 512  # Embedding dimension
+
+# Lightning Checkpoint to use for inference on fine-tuned models. Give a dummy path while evaluating baseline models
+pl_ckpt_path: '/local/vondrick/nd2794/CoIR/runs/2024-08-23-07-40-28-025812/checkpoint-epoch=00-val_loss=0.0002349347.ckpt'
+# CLIP pre-trained model to be used for inference
 checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+
+faiss_use_gpu: True   # Options: [True, False]
+faiss_gpu_device_id: 1  # Chose a different device than the one that is used by the model
+model_gpu_device_id: 0  # Model will always use GPU for inference
 
 
 dataloader:
-  batch_size: 2
-  num_workers: 10
+  batch_size: 100
+  num_workers: 20
   pin_memory: True
   shuffle: False
   persistent_workers: True
