@@ -1,7 +1,7 @@
 task: train       # choices: [train, test_only, continue_training]
 dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
 model_type: clip       # choices: [clip]
-checkpoint_path: '/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
 resume_from_checkpoint: None
 
 image_encoder_mode: train # choices: [train, freeze]
@@ -14,9 +14,9 @@ loss_fn:
   train_temperature: False # choices: [True, False]
 
 trainer:
-  max_epochs: 100
+  max_epochs: 20
   min_epochs: 1
-  ckpt_path: /proj/vondrick2/nd2794/CoIR/runs/2024-08-15-20-51-10-903893/checkpoint-epoch=03-val_loss=0.0009.ckpt
+  ckpt_path: '/local/vondrick/nd2794/CoIR/runs/<run_name>'
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
   strategy: 'ddp'
@@ -25,8 +25,8 @@ trainer:
   log_every_n_steps: 10
   enable_checkpointing: True
   fast_dev_run: False
-  limit_train_batches: 0.1
-  limit_val_batches: 0.1
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
   limit_test_batches: 1.0
   limit_predict_batches: 1.0
   profiler: None
@@ -64,30 +64,35 @@ dataloader:
   persistent_workers: True
   drop_last: False
 
+seed: 42
+float32_matmul_precision: high
+
 wandb:
   project: coir
 
 
-runs_dir: '/proj/vondrick2/nd2794/CoIR/runs'
+runs_dir: '/local/vondrick/nd2794/CoIR/runs'
 
 
 data:
   lasco:
-    dir: '/proj/vondrick2/nd2794/CoIR/data/LaSCo'
+    dir: '/local/vondrick/nd2794/CoIR/data/LaSCo'
     splits: ['train', 'val']
   fashioniq:
-    dir: '/proj/vondrick2/nd2794/CoIR/data/FashionIQ'
+    dir: '/local/vondrick/nd2794/CoIR/data/FashionIQ'
     splits: ['train', 'val', 'test']
   cirr:
-    dir: '/proj/vondrick2/nd2794/CoIR/data/CIRR'
+    dir: '/local/vondrick/nd2794/CoIR/data/CIRR'
     splits: ['train', 'val', 'test1']
   circo:
-    dir: '/proj/vondrick2/nd2794/CoIR/data/CIRCO'
+    dir: '/local/vondrick/nd2794/CoIR/data/CIRCO'
     splits: ['val', 'test']
 
 
 local_time_zone: 'US/Eastern'
-TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']  
+TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
 
 
 #model_registry:

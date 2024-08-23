@@ -8,20 +8,20 @@ from src.datamodules import datamodule_registry
 from src.utils.trainer_utils import get_wandb_logger, get_tb_logger, get_checkpoint_callback
 
 
-def task_processor(config, logger):
+def task_processor(config):
     if config['task'] == 'train':
         
         # Load the model
         try:
             model = model_registry[config['model_type']](config)
         except:
-            logger.error('model type in not in the model registry')
+            #logger.error('model type in not in the model registry')
             return
         
         try :
             datamodule = datamodule_registry[config['dataset_to_use']](config)
         except:
-            logger.error('dataset type in not in the datamodule registry')
+            #logger.error('dataset type in not in the datamodule registry')
             return
         
         wandb_logger = get_wandb_logger(config)
@@ -67,5 +67,5 @@ def task_processor(config, logger):
             )
 
     else:
-        logger.error('task not recognized')
+        #logger.error('task not recognized')
         return

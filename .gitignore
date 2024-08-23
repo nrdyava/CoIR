@@ -1,7 +1,7 @@
 /data
-/notebooks
 /runs
 **/__pycache__
 **/.ipynb_checkpoints
-configs/config_gins.yaml
+.idea
+
 
