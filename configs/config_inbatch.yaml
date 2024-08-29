@@ -1,5 +1,5 @@
-task: train       # choices: [train, test_only, continue_training]
-dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
+task: 'train'       # choices: [train, test_only, continue_training]
+dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
 model_type: 'clip_inbatch'      # choices: [clip_inbatch, clip, clip_ns]
 checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
 resume_from_checkpoint: None
@@ -14,7 +14,7 @@ loss_fn:
   train_temperature: False # choices: [True, False]
 
 trainer:
-  max_epochs: 20
+  max_epochs: 100
   min_epochs: 1
   pl_ckpt_path: '/local/vondrick/nd2794/CoIR/runs/<run_name>'
   check_val_every_n_epoch: 1
@@ -22,11 +22,11 @@ trainer:
   strategy: 'ddp'
   devices: [0, 1, 2, 3, 4, 5, 6, 7]
   use_distributed_sampler: True
-  log_every_n_steps: 10
+  log_every_n_steps: 25
   enable_checkpointing: True
   fast_dev_run: False
-  limit_train_batches: 0.1
-  limit_val_batches: 0.1
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
   limit_test_batches: 1.0
   limit_predict_batches: 1.0
   profiler: None
@@ -38,7 +38,7 @@ trainer:
   deterministic: True
   benchmark: True
   model_checkpoint_callback:
-    every_n_epochs: 1
+    every_n_epochs: 5
     monitor: 'val_loss'
     mode: 'min'
     save_top_k: -1
@@ -46,7 +46,7 @@ trainer:
     enable_version_counter: False
 
 optimizer:
-  lr: 0.000001
+  lr: 0.00001
   name: 'adamw'
   #weight_decay: 0.1
   #betas: [0.9, 0.999]
@@ -54,7 +54,7 @@ optimizer:
 
 
 dataloader:
-  batch_size: 30
+  batch_size: 50
   num_workers: 2
   pin_memory: True
   shuffle:
