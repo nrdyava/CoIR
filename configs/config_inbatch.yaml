@@ -1,0 +1,116 @@
+task: 'train'       # choices: [train, test_only, continue_training]
+dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
+model_type: 'clip_inbatch'      # choices: [clip_inbatch_mt, clip_inbatch, clip, clip_ns]
+checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+resume_from_checkpoint: None
+
+image_encoder_mode: 'train' # choices: [train, freeze]
+text_encoder_mode: 'train' # choices: [train, freeze]
+
+multitask:
+  bidirectional: True #[True, False]
+  #bidirectional_rate: 0.5 # Fraction of Forward & Reverse regularizations
+
+
+loss_fn:
+  name: 'symmetric_loss_without_temp'
+  dotp_clip: 100
+  temperature: 0.07
+  train_temperature: False # choices: [True, False]
+
+trainer:
+  max_epochs: 100
+  min_epochs: 1
+  pl_ckpt_path: '/local/vondrick/nd2794/CoIR/runs/<run_name>'
+  check_val_every_n_epoch: 1
+  accelerator: 'gpu' 
+  strategy: 'ddp'
+  devices: [0, 1, 2, 3, 4, 5, 6, 7]
+  use_distributed_sampler: True
+  log_every_n_steps: 25
+  enable_checkpointing: True
+  fast_dev_run: False
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 1.0
+  limit_predict_batches: 1.0
+  profiler: None
+  num_nodes: 1
+  precision: '32-true'
+  num_sanity_val_steps: 0
+  enable_progress_bar: True
+  enable_model_summary: True
+  deterministic: True
+  benchmark: True
+  model_checkpoint_callback:
+    every_n_epochs: 5
+    monitor: 'val_loss'
+    mode: 'min'
+    save_top_k: -1
+    filename: 'checkpoint-{epoch:02d}-{val_loss:.10f}'
+    enable_version_counter: False
+
+optimizer:
+  lr: 0.000005
+  name: 'adamw'
+  #weight_decay: 0.1
+  #betas: [0.9, 0.999]
+  #eps: 1e-8
+
+
+dataloader:
+  batch_size: 50
+  num_workers: 2
+  pin_memory: True
+  shuffle:
+    train: True
+    val: False
+    test: False
+  persistent_workers: True
+  drop_last: False
+
+seed: 42
+float32_matmul_precision: high
+
+wandb:
+  project: coir
+
+
+runs_dir: '/local/vondrick/nd2794/CoIR/runs'
+
+
+data:
+  lasco:
+    dir: '/local/vondrick/nd2794/CoIR/data/LaSCo'
+    splits: ['train', 'val']
+  fashioniq:
+    dir: '/local/vondrick/nd2794/CoIR/data/FashionIQ'
+    splits: ['train', 'val', 'test']
+  cirr:
+    dir: '/local/vondrick/nd2794/CoIR/data/CIRR'
+    splits: ['train', 'val', 'test1']
+  circo:
+    dir: '/local/vondrick/nd2794/CoIR/data/CIRCO'
+    splits: ['val', 'test']
+
+
+local_time_zone: 'US/Eastern'
+TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+
+
+#model_registry:
+#  models_categories_available: [clip]
+#  models_by_category:
+#    clip:
+#      options: [CLIP-ViT-B/16, CLIP-ViT-B/32, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+#      checkpoints:
+#        CLIP-ViT-B/16: '/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch16'
+#        CLIP-ViT-B/32: '/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+#        CLIP-ViT-L/14: '/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14'
+#        CLIP-ViT-L/14@336: '/proj/vondrick2/nd2794/pretrained_models/clip/clip-vit-large-patch14-336'
+
+
+#loss_functions
+#  - 'vanilla_constrastive_cross_entrpy_loss'

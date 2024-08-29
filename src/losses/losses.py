@@ -26,3 +26,16 @@ def BCE_loss_of_dotps_ns(embeds_1, embeds_2, embeds_3, config):
 
 def cosine_embedding_loss(embeds_1, embeds_2, config):
     return torch.nn.CosineEmbeddingLoss()(embeds_1, embeds_2, torch.ones(embeds_1.shape[0]).to(embeds_1.device))
+
+
+def symmetric_loss_without_temp(embeds_1, embeds_2, config):
+    logits_per_A = torch.mm(embeds_1, embeds_2.t())
+    logits_per_B = torch.mm(embeds_2, embeds_1.t())
+    labels = torch.arange(logits_per_A.size(0), device=logits_per_A.device)
+
+    loss_A = torch.nn.functional.cross_entropy(logits_per_A, labels)
+    loss_B = torch.nn.functional.cross_entropy(logits_per_B, labels)
+    loss = (loss_A + loss_B) / 2.0
+
+    return loss
+
