@@ -43,7 +43,7 @@ trainer:
   deterministic: True
   benchmark: True
   model_checkpoint_callback:
-    every_n_epochs: 5
+    every_n_epochs: 4
     monitor: 'val_loss'
     mode: 'min'
     save_top_k: -1

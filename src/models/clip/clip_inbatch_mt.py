@@ -91,8 +91,8 @@ class CLIPModelINBATCH_MT(L.LightningModule):
         loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.config)
         loss = (loss_forward + loss_backward)/2.0
 
-        self.log('train_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('train_loss_backward', loss_backward, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('train_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('train_loss_backward', loss_backward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
@@ -120,8 +120,8 @@ class CLIPModelINBATCH_MT(L.LightningModule):
         loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.config)
         loss = (loss_forward + loss_backward) / 2.0
 
-        self.log('val_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_loss_backward', loss_backward, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_loss_backward', loss_backward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
