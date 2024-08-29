@@ -10,6 +10,7 @@ from lightning.pytorch import seed_everything
 from src.utils.runner_utils import parse_args, register_run, get_logger
 from task_processor import task_processor
 from task_processor_ns import task_processor_ns
+from task_processor_inbatch import task_processor_inbatch
 
 
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
     # sets seeds for numpy, torch and python.random.
     seed_everything(config['seed'], workers=True)
 
-    task_processor_ns(config)
+    task_processor_inbatch(config)
 
 
 

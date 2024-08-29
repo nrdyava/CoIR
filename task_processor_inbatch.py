@@ -8,7 +8,7 @@ from src.datamodules import datamodule_registry
 from src.utils.trainer_utils import get_wandb_logger, get_tb_logger, get_checkpoint_callback
 
 
-def task_processor_ns(config):
+def task_processor_inbatch(config):
     if config['task'] == 'train':
         
         # Load the model
@@ -19,7 +19,7 @@ def task_processor_ns(config):
             return
         
         try :
-            datamodule = datamodule_registry['lasco_neg_samps'](config)
+            datamodule = datamodule_registry['lasco_inbatch'](config)
         except:
             #logger.error('dataset type in not in the datamodule registry')
             return

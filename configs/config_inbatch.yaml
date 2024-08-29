@@ -1,6 +1,6 @@
 task: train       # choices: [train, test_only, continue_training]
 dataset_to_use: lasco       # choices: [lasco, fashioniq, cirr, circo]
-model_type: clip_ns       # choices: [clip, clip_ns]
+model_type: 'clip_inbatch'      # choices: [clip_inbatch, clip, clip_ns]
 checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
 resume_from_checkpoint: None
 
@@ -8,7 +8,7 @@ image_encoder_mode: train # choices: [train, freeze]
 text_encoder_mode: train # choices: [train, freeze]
 
 loss_fn:
-  name: 'BCE_loss_of_dotps_ns'
+  name: 'symmetric_loss_without_temp'
   dotp_clip: 100
   temperature: 0.07
   train_temperature: False # choices: [True, False]

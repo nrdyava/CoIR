@@ -2,11 +2,11 @@ import torch
 from torch.utils.data import DataLoader
 from pytorch_lightning import LightningDataModule
 
-from src.datasets.lasco_datasets_neg_samp import lasco_dataset_neg_samps
+from src.datasets.lasco_datasets_inbatch import lasco_dataset_inbatch
 
 
 
-class LASCODataModuleNS(LightningDataModule):
+class LASCODataModuleINBATCH(LightningDataModule):
     def __init__(self, config):
         super().__init__()
         self.config = config
@@ -22,8 +22,8 @@ class LASCODataModuleNS(LightningDataModule):
 
     def setup(self, stage):
         if stage == 'fit':
-            self.train_dataset = lasco_dataset_neg_samps(self.config, 'train')
-            self.val_dataset = lasco_dataset_neg_samps(self.config, 'val')
+            self.train_dataset = lasco_dataset_inbatch(self.config, 'train')
+            self.val_dataset = lasco_dataset_inbatch(self.config, 'val')
 
     def train_dataloader(self):
         return DataLoader(
