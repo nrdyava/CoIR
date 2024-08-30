@@ -39,3 +39,13 @@ def symmetric_loss_without_temp(embeds_1, embeds_2, config):
 
     return loss
 
+
+def symmetric_loss_with_temp(embeds_1, embeds_2, temperature, temp_clamp_max, config):
+    logits_per_A = torch.mm(embeds_1, embeds_2.t())*torch.clamp(torch.exp(temperature), max = temp_clamp_max, min = 0)
+    logits_per_B = torch.mm(embeds_2, embeds_1.t())*torch.clamp(torch.exp(temperature), max = temp_clamp_max, min = 0)
+    labels = torch.arange(logits_per_A.size(0), device=logits_per_A.device)
+
+    loss_A = torch.nn.functional.cross_entropy(logits_per_A, labels)
+    loss_B = torch.nn.functional.cross_entropy(logits_per_B, labels)
+    loss = (loss_A + loss_B) / 2.0
+    return loss

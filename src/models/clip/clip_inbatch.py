@@ -21,7 +21,12 @@ class CLIPModelINBATCH(L.LightningModule):
 
         self.temperature = config['loss_fn']['temperature']
         self.train_temperature = config['loss_fn']['train_temperature']
-        self.dotp_clip = config['loss_fn']["dotp_clip"]
+        self.temp_clamp_max = config['loss_fn']['temp_clamp_max']
+
+        if self.train_temperature == True:
+            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=True)
+        else:
+            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=False)
 
         self.lr = config['optimizer']['lr']
 
@@ -84,7 +89,7 @@ class CLIPModelINBATCH(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
+        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
@@ -104,7 +109,7 @@ class CLIPModelINBATCH(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.config)
+        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
