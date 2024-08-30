@@ -21,7 +21,12 @@ class CLIPModelINBATCH_MT(L.LightningModule):
 
         self.temperature = config['loss_fn']['temperature']
         self.train_temperature = config['loss_fn']['train_temperature']
-        self.dotp_clip = config['loss_fn']["dotp_clip"]
+        self.temp_clamp_max = config['loss_fn']['temp_clamp_max']
+
+        if self.train_temperature == True:
+            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=True)
+        else:
+            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=False)
 
         self.lr = config['optimizer']['lr']
 
@@ -87,8 +92,8 @@ class CLIPModelINBATCH_MT(L.LightningModule):
         target_hat_embeds_backward = target_image_embeds - query_text_embeds
         target_hat_embeds_backward = target_hat_embeds_backward / torch.linalg.vector_norm(target_hat_embeds_backward, ord=2, dim=1, keepdim=True)
 
-        loss_forward =  self.loss_fn(target_hat_embeds_forward, target_image_embeds, self.config)
-        loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.config)
+        loss_forward =  self.loss_fn(target_hat_embeds_forward, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
+        loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.temperature, self.temp_clamp_max, self.config)
         loss = (loss_forward + loss_backward)/2.0
 
         self.log('train_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
@@ -116,8 +121,8 @@ class CLIPModelINBATCH_MT(L.LightningModule):
         target_hat_embeds_backward = target_image_embeds - query_text_embeds
         target_hat_embeds_backward = target_hat_embeds_backward / torch.linalg.vector_norm(target_hat_embeds_backward, ord=2, dim=1, keepdim=True)
 
-        loss_forward = self.loss_fn(target_hat_embeds_forward, target_image_embeds, self.config)
-        loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.config)
+        loss_forward = self.loss_fn(target_hat_embeds_forward, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
+        loss_backward = self.loss_fn(target_hat_embeds_backward, query_image_embeds, self.temperature, self.temp_clamp_max, self.config)
         loss = (loss_forward + loss_backward) / 2.0
 
         self.log('val_loss_forward', loss_forward, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)

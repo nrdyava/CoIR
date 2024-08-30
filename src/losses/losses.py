@@ -28,7 +28,7 @@ def cosine_embedding_loss(embeds_1, embeds_2, config):
     return torch.nn.CosineEmbeddingLoss()(embeds_1, embeds_2, torch.ones(embeds_1.shape[0]).to(embeds_1.device))
 
 
-def symmetric_loss_without_temp(embeds_1, embeds_2, config):
+def symmetric_loss_without_temp(embeds_1, embeds_2, temperature, temp_clamp_max, config):
     logits_per_A = torch.mm(embeds_1, embeds_2.t())
     logits_per_B = torch.mm(embeds_2, embeds_1.t())
     labels = torch.arange(logits_per_A.size(0), device=logits_per_A.device)
