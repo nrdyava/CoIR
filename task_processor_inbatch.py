@@ -14,7 +14,6 @@ def task_processor_inbatch(config):
         # Load the model
         try:
             model = model_registry[config['model_type']](config)
-            print("debug")
         except:
             #logger.error('model type in not in the model registry')
             return

@@ -10,8 +10,8 @@ text_encoder_mode: 'train' # choices: [train, freeze]
 loss_fn:
   name: 'symmetric_loss_with_temp'
   temp_clamp_max: 100
-  temperature: 0.07
-  train_temperature: True # choices: [True, False]
+  temperature: 0.1
+  train_temperature: False # choices: [True, False]
 
 trainer:
   max_epochs: 100
