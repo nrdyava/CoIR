@@ -6,7 +6,7 @@ import yaml
 import pytz
 import lightning as L
 from transformers import CLIPVisionModelWithProjection, CLIPTextModelWithProjection
-
+import numpy as np
 from src.losses import loss_fn_registry
 
 
@@ -14,6 +14,7 @@ class CLIPModelINBATCH(L.LightningModule):
     def __init__(self, config):
         super().__init__()
         self.config = config
+        
 
         self.modelckpt = config['checkpoint_path']
         self.image_encoder_mode = config['image_encoder_mode']
@@ -21,12 +22,16 @@ class CLIPModelINBATCH(L.LightningModule):
 
         self.temperature = config['loss_fn']['temperature']
         self.train_temperature = config['loss_fn']['train_temperature']
-        self.temp_clamp_max = config['loss_fn']['temp_clamp_max']
-
+        #self.temp_clamp_max = config['loss_fn']['temp_clamp_max']
+        
+        
+        
         if self.train_temperature == True:
-            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=True)
+            self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=True)
+            #self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=True)
         else:
-            self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=False)
+            self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=False)
+            #self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=False)
 
         self.lr = config['optimizer']['lr']
 
@@ -35,6 +40,7 @@ class CLIPModelINBATCH(L.LightningModule):
         # Models
         self.image_encoder = CLIPVisionModelWithProjection.from_pretrained(pretrained_model_name_or_path=self.modelckpt, local_files_only=True)
         self.text_encoder = CLIPTextModelWithProjection.from_pretrained(pretrained_model_name_or_path=self.modelckpt, local_files_only=True)
+        
 
         if self.image_encoder_mode == 'freeze':
             for param in self.image_encoder.parameters():
@@ -89,12 +95,15 @@ class CLIPModelINBATCH(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
+        #loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.config)
+        loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, self.config)
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        #self.log('temperature', self.temperature.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('logit_scale', self.logit_scale.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('train_avg_rank', avg_rank.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
-        target_hat_n_target_cosine_sim_mean = torch.mean(
-            torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
+        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
         self.log('train_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
         return loss
@@ -109,12 +118,13 @@ class CLIPModelINBATCH(L.LightningModule):
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        loss = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.temp_clamp_max, self.config)
+        #loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.temperature, self.config)
+        loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, self.config)
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_avg_rank', avg_rank.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
-        target_hat_n_target_cosine_sim_mean = torch.mean(
-            torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
+        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
         self.log('val_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
 

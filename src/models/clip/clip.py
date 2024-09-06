@@ -22,7 +22,7 @@ class CLIPModel(L.LightningModule):
 
         self.temperature = config['loss_fn']['temperature']
         self.train_temperature = config['loss_fn']['train_temperature']
-        self.dotp_clip = config['loss_fn']["dotp_clip"]
+        #self.dotp_clip = config['loss_fn']["dotp_clip"]
 
         self.lr = config['optimizer']['lr']
 
@@ -47,6 +47,20 @@ class CLIPModel(L.LightningModule):
         image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1, keepdim=True)
         return {'image-embeds': image_embeds}
 
+
+    def coco_2014_caps_forward(self, batch):
+        image = batch['image']
+        caption = batch['caption']
+
+        image_embeds = self.image_encoder(**image).image_embeds
+        image_embeds = image_embeds/torch.linalg.vector_norm(image_embeds, ord=2, dim=1,  keepdim=True)
+
+        caption_embeds = self.text_encoder(**caption).text_embeds
+        caption_embeds = caption_embeds/torch.linalg.vector_norm(caption_embeds, ord=2, dim=1,  keepdim=True)
+
+        return {'image_embeds': image_embeds, 'caption_embeds': caption_embeds}
+    
+    
     def retriever_forward(self, batch):
         query_image = batch['query-image']
         query_text = batch['query-text']

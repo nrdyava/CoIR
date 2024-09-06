@@ -1,0 +1,77 @@
+Metric                 Value
+----------------  ----------
+Dot product mean  0.31102523
+
+
+
+
+results_file_name: coco_2014_dotp_results/CLIP-ViT_B_32_baseline.txt
+dataset_to_use: lasco
+dataset_split: val
+coco_caps_2014_path: /local/vondrick/nd2794/CoIR/data/coco_2014_annotations
+eval_model_type: baseline
+d: 512
+image_encoder_mode: train
+text_encoder_mode: train
+optimizer:
+  lr: 5.0e-05
+  name: adamw
+pl_ckpt_path: /local/vondrick/nd2794/CoIR/runs/2024-09-01-05-18-16-241590/checkpoint-epoch=04-val_loss=1.1510791779.ckpt
+checkpoint_path: /local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32
+model_gpu_device_id: 0
+dataloader:
+  batch_size: 100
+  num_workers: 20
+  pin_memory: true
+  shuffle: false
+  persistent_workers: true
+  drop_last: false
+seed: 42
+float32_matmul_precision: high
+data:
+  lasco:
+    dir: /local/vondrick/nd2794/CoIR/data/LaSCo
+    img_tensors_dir: /local/vondrick/nd2794/CoIR/data/LaSCo_img_tensors
+    splits:
+    - train
+    - val
+  fashioniq:
+    dir: /local/vondrick/nd2794/CoIR/data/FashionIQ
+    splits:
+    - train
+    - val
+    - test
+  cirr:
+    dir: /local/vondrick/nd2794/CoIR/data/CIRR
+    splits:
+    - train
+    - val
+    - test1
+  circo:
+    dir: /local/vondrick/nd2794/CoIR/data/CIRCO
+    splits:
+    - val
+    - test
+  coco_2014_annotations:
+    dir: /local/vondrick/nd2794/CoIR/data/coco_2014_annotations
+    splits:
+    - val
+    - train
+TOKENIZERS_PARALLELISM: 'true'
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+loss_fn:
+  name: symmetric_loss_with_temp
+  temperature: 0.07
+  train_temperature: true
+  dotp_clip: '1234'
+
+
+
+
+
+#########################################################################
+
+
+
+

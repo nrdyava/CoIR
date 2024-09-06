@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader
 from pytorch_lightning import LightningDataModule
 
 from src.datasets.lasco_datasets_inbatch import lasco_dataset_inbatch
+from src.datasets.lasco_datasets_inbatch_tensors import lasco_datasets_inbatch_tensors
 
 
 
@@ -22,8 +23,8 @@ class LASCODataModuleINBATCH(LightningDataModule):
 
     def setup(self, stage):
         if stage == 'fit':
-            self.train_dataset = lasco_dataset_inbatch(self.config, 'train')
-            self.val_dataset = lasco_dataset_inbatch(self.config, 'val')
+            self.train_dataset = lasco_datasets_inbatch_tensors(self.config, 'train')
+            self.val_dataset = lasco_datasets_inbatch_tensors(self.config, 'val')
 
     def train_dataloader(self):
         return DataLoader(
