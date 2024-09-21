@@ -1,3 +1,4 @@
+exp_name: 'rank-(0)-test'
 task: 'train'       # choices: [train, test_only, continue_training]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
 model_type: 'clip_inbatch_mt'      # choices: [clip_inbatch_mt, clip_inbatch, clip, clip_ns]

@@ -2,10 +2,11 @@ import os
 from lightning.pytorch.trainer.trainer import Trainer
 from lightning.pytorch.loggers import TensorBoardLogger, WandbLogger
 from lightning.pytorch.callbacks import ModelCheckpoint
+import torch
 
 from src.models import model_registry
 from src.datamodules import datamodule_registry
-from src.utils.trainer_utils import get_wandb_logger, get_tb_logger, get_checkpoint_callback
+from src.utils.trainer_utils import get_wandb_logger, get_checkpoint_callback
 
 
 def task_processor_inbatch(config):
@@ -15,17 +16,14 @@ def task_processor_inbatch(config):
         try:
             model = model_registry[config['model_type']](config)
         except:
-            #logger.error('model type in not in the model registry')
             return
         
         try :
             datamodule = datamodule_registry['lasco_inbatch'](config)
         except:
-            #logger.error('dataset type in not in the datamodule registry')
             return
         
         wandb_logger = get_wandb_logger(config)
-        #tb_logger = get_tb_logger(config)
         checkpoint_callback = get_checkpoint_callback(config)
 
         # Configure the trainer
@@ -67,5 +65,4 @@ def task_processor_inbatch(config):
             )
 
     else:
-        #logger.error('task not recognized')
         return

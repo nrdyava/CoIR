@@ -1,3 +1,5 @@
+exp_name: 'rank-(0)-test'
+comments: 'no special comments for this run'
 task: 'train'       # choices: [train, test_only, continue_training]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
 model_type: 'clip_inbatch'      # choices: [clip_inbatch_mt, clip_inbatch, clip, clip_ns]
@@ -72,6 +74,11 @@ wandb:
 
 
 runs_dir: '/local/vondrick/nd2794/CoIR/runs'
+
+
+# Redundant names for rank != 0
+wandb_name: 'redundant_name_for_rank != 0'
+run_dir: 'redundant_name_for_rank != 0'
 
 
 data:
