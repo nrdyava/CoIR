@@ -20,17 +20,17 @@ class CLIPModelINBATCH(L.LightningModule):
         self.image_encoder_mode = config['image_encoder_mode']
         self.text_encoder_mode = config['text_encoder_mode']
 
-        self.temperature = config['loss_fn']['temperature']
-        self.train_temperature = config['loss_fn']['train_temperature']
+        #self.temperature = config['loss_fn']['temperature']
+        #self.train_temperature = config['loss_fn']['train_temperature']
         #self.temp_clamp_max = config['loss_fn']['temp_clamp_max']
         
         
         
-        if self.train_temperature == True:
-            self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=True)
+        #if self.train_temperature == True:
+            #self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=True)
             #self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=True)
-        else:
-            self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=False)
+        #else:
+            #self.logit_scale = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.temperature), requires_grad=False)
             #self.temperature = torch.nn.parameter.Parameter(torch.tensor(self.temperature), requires_grad=False)
 
         self.lr = config['optimizer']['lr']
@@ -57,6 +57,18 @@ class CLIPModelINBATCH(L.LightningModule):
         image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1, keepdim=True)
         return {'image-embeds': image_embeds}
 
+    def coco_2014_caps_forward(self, batch):
+        image = batch['image']
+        caption = batch['caption']
+
+        image_embeds = self.image_encoder(**image).image_embeds
+        image_embeds = image_embeds/torch.linalg.vector_norm(image_embeds, ord=2, dim=1,  keepdim=True)
+
+        caption_embeds = self.text_encoder(**caption).text_embeds
+        caption_embeds = caption_embeds/torch.linalg.vector_norm(caption_embeds, ord=2, dim=1,  keepdim=True)
+
+        return {'image_embeds': image_embeds, 'caption_embeds': caption_embeds}
+    
     def retriever_forward(self, batch):
         query_image = batch['query-image']
         query_text = batch['query-text']

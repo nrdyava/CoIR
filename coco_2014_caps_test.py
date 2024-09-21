@@ -16,6 +16,7 @@ from torch.utils.data import DataLoader
 from transformers import CLIPVisionModelWithProjection, CLIPTextModelWithProjection
 
 from src.models.clip.clip import CLIPModel
+from src.models.clip.clip_inbatch import CLIPModelINBATCH
 from src.metrics.metrics import calculate_recall
 from src.datasets.coco_captions_2014_dataset import coco_captions_dataset_image_tensors
 
@@ -27,7 +28,7 @@ def main(config):
     print('Model device: {}'.format(model_device))
 
     # Load the model and map to appropriate device
-    #model = CLIPModel.load_from_checkpoint(config['pl_ckpt_path'], map_location=config['model_gpu_device_id'])
+    model = CLIPModelINBATCH.load_from_checkpoint(config['pl_ckpt_path'], map_location=config['model_gpu_device_id'], strict=False)
 
     if config['eval_model_type'] == 'baseline':
         model = CLIPModel(config)
@@ -35,7 +36,7 @@ def main(config):
         model.text_encoder = CLIPTextModelWithProjection.from_pretrained(pretrained_model_name_or_path=config['checkpoint_path'], local_files_only=True)
 
     model.eval()
-    model.to(model_device)
+    #model.to(model_device)
     print('Model loaded')
 
 
@@ -62,9 +63,7 @@ def main(config):
             outs = model.coco_2014_caps_forward(batch)
         
         dotps = torch.nn.functional.cosine_similarity(outs['image_embeds'], outs['caption_embeds'], dim=1)
-        
         dotps_accumulated.extend(dotps.cpu().tolist())
-        break
         
     table = [
         ['Dot product mean', sum(dotps_accumulated)/len(dotps_accumulated)]
