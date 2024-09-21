@@ -1,12 +1,12 @@
-results_file_name: 'coco_2014_dotp_results/CLIP-ViT_B_32_baseline.txt'
+results_file_name: 'coco_2014_dotp_results/CLIP-ViT_B_32_2024-08-30-21-48-59-163782_checkpoint-epoch=04-val_loss=0.8276544809.txt'
 dataset_to_use: lasco
 dataset_split: 'val'    #options:['train', 'val']
 
-coco_caps_2014_path: '/local/vondrick/nd2794/CoIR/data/coco_2014_annotations'
+coco_caps_2014_path: '/local/vondrick/nd2794/CoIR/runs/2024-08-30-21-48-59-163782/checkpoint-epoch=04-val_loss=0.8276544809.ckpt'
 
 model_gpu_device_id: 0  # Model will always use GPU for inference
 
-eval_model_type: 'baseline'     # options: ['baseline', 'fine_tuned']
+eval_model_type: 'fine_tuned'     # options: ['baseline', 'fine_tuned']
 d: 512  # Embedding dimension
 
 image_encoder_mode: 'train' # choices: [train, freeze]
@@ -20,7 +20,7 @@ optimizer:
   #eps: 1e-8
 
 # Lightning Checkpoint to use for inference on fine-tuned models. Give a dummy path while evaluating baseline models
-pl_ckpt_path: '/local/vondrick/nd2794/CoIR/runs/2024-09-01-05-18-16-241590/checkpoint-epoch=04-val_loss=1.1510791779.ckpt'
+pl_ckpt_path: '/local/vondrick/nd2794/CoIR/runs/2024-08-30-21-48-59-163782/checkpoint-epoch=04-val_loss=0.8276544809.ckpt'
 # CLIP pre-trained model to be used for inference
 checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
 

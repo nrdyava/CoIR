@@ -1,6 +1,6 @@
 Metric                 Value
 ----------------  ----------
-Dot product mean  0.31102523
+Dot product mean  0.30485763
 
 
 
@@ -9,6 +9,7 @@ results_file_name: coco_2014_dotp_results/CLIP-ViT_B_32_baseline.txt
 dataset_to_use: lasco
 dataset_split: val
 coco_caps_2014_path: /local/vondrick/nd2794/CoIR/data/coco_2014_annotations
+model_gpu_device_id: 0
 eval_model_type: baseline
 d: 512
 image_encoder_mode: train
@@ -18,7 +19,6 @@ optimizer:
   name: adamw
 pl_ckpt_path: /local/vondrick/nd2794/CoIR/runs/2024-09-01-05-18-16-241590/checkpoint-epoch=04-val_loss=1.1510791779.ckpt
 checkpoint_path: /local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32
-model_gpu_device_id: 0
 dataloader:
   batch_size: 100
   num_workers: 20
