@@ -40,3 +40,11 @@ configuration file path: configs/config_inbatch.yaml
 results of the run are stored at: /local/vondrick/nd2794/CoIR/runs/2024-09-21-13-11-17-577723+rank-(0)-test
 
 ==================================================================================================================
+
+run start time: 2024-09-21-15-13-29-076274 US/Eastern
+run name: 2024-09-21-15-13-29-076274 + rank-(0)-test
+configuration file path: configs/config_inbatch.yaml
+results of the run are stored at: /local/vondrick/nd2794/CoIR/runs/2024-09-21-15-13-29-076274 + rank-(0)-test
+Comments: no special comments for this run
+
+==================================================================================================================

@@ -24,6 +24,8 @@ def register_run(args, run_start_time_local, config, run_dir):
     write_text += f"run name: {run_name}\n"
     write_text += f"configuration file path: {args.config_file}\n"
     write_text += f"results of the run are stored at: {run_dir}\n"
+    run_comments = config['comments']
+    write_text += f"Comments: {run_comments}\n"
     write_text += f"\n==================================================================================================================\n"
 
     with open('run_registry.txt', 'a') as file:

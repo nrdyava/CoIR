@@ -3,6 +3,3 @@
 **/__pycache__
 **/.ipynb_checkpoints
 .idea
-viz/lasco_train_viz.json
-viz/lasco_val_viz.json
-
