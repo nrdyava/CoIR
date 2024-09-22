@@ -1,18 +1,15 @@
 from lightning.pytorch.loggers import TensorBoardLogger, WandbLogger
 from lightning.pytorch.callbacks import ModelCheckpoint
 
+
 def get_wandb_logger(config):
     return WandbLogger(
         name=config['wandb_name'],
         project=config['wandb']['project'],
         save_dir=config['run_dir']
         )
-
-def get_tb_logger(config):
-    return TensorBoardLogger(
-        save_dir=config['run_dir']
-        )
-
+    
+    
 def get_checkpoint_callback(config):
     return ModelCheckpoint(
         dirpath=config['run_dir'],

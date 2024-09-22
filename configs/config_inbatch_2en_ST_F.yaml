@@ -1,0 +1,117 @@
+exp_name: 'rank-(0)-test'
+comments: 'no special comments for this run'
+
+exp_type: 'inbatch_2en_ST_F'       # choices: ['inbatch_2en_ST_F']
+model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+task: 'finetune'        # choices: [finetune, continue_training, test_only]
+dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
+
+#pretrained_checkpoint_path: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch32'
+#checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+resume_training_from_checkpoint: '/proj/vondrick2/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+#resume_from_checkpoint: None
+test_at_checkpoint: '/proj/vondrick2/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+
+image_encoder_mode: 'train' # choices: [train, freeze]
+text_encoder_mode: 'train' # choices: [train, freeze]
+
+
+dataloader:
+  batch_size: 50
+  num_workers: 5
+  pin_memory: True
+  shuffle:
+    train: True
+    val: False
+    test: False
+  persistent_workers: True
+  drop_last: False
+
+
+optimizer:
+  lr: 0.00001
+  name: 'AdamW'
+  #weight_decay: 0.1
+  #betas: [0.9, 0.999]
+  #eps: 1e-8
+
+
+# TODO: Fix this in the src code
+loss_fn:
+  name: 'symmetric_loss_with_temp'
+  temperature: 0.07
+  train_temperature: True # choices: [True, False]
+  #temp_clamp_max: 100
+
+trainer:
+  max_epochs: 30
+  min_epochs: 1
+  check_val_every_n_epoch: 1
+  accelerator: 'gpu' 
+  strategy: 'ddp'
+  devices: [0, 1, 2, 3, 4, 5, 6, 7]
+  use_distributed_sampler: True
+  log_every_n_steps: 50
+  enable_checkpointing: True
+  fast_dev_run: False
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 1.0
+  limit_predict_batches: 1.0
+  profiler: None # [None, 'simple']
+  num_nodes: 1
+  precision: '32-true'
+  num_sanity_val_steps: 0
+  enable_progress_bar: True
+  enable_model_summary: True
+  deterministic: True
+  benchmark: True
+  model_checkpoint_callback:
+    every_n_epochs: 1
+    monitor: 'val_loss'
+    mode: 'min'
+    save_top_k: -1
+    filename: 'checkpoint-{epoch:02d}-{val_loss:.10f}'
+    enable_version_counter: False
+
+
+wandb:
+  project: coir
+
+runs_dir: '/proj/vondrick2/naveen/coir-runs'
+run_registry_file: '/proj/vondrick2/naveen/coir-run-registry.txt'
+
+# Redundant values for rank != 0
+run_dir: 'redundant_name_for_rank != 0'
+wandb_name: 'redundant_name_for_rank != 0'
+
+
+data:
+  lasco:
+    dir: '/local/vondrick/naveen/coir-data/LaSCo'
+    splits: ['train', 'val']
+  fashioniq:
+    dir: '/local/vondrick/naveen/coir-data/FashionIQ'
+    splits: ['train', 'val', 'test']
+  cirr:
+    dir: '/local/vondrick/naveen/coir-data/CIRR'
+    splits: ['train', 'val', 'test1']
+  circo:
+    dir: '/local/vondrick/naveen/coir-data/CIRCO'
+    splits: ['val', 'test']
+
+
+seed: 42
+local_time_zone: 'US/Eastern'
+TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+float32_matmul_precision: high
+
+
+# CLIP Model Registry
+clip_checkpoints:
+  CLIP-ViT-B/16: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch16'
+  CLIP-ViT-B/32: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch32'
+  CLIP-ViT-L/14: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-large-patch14'
+  CLIP-ViT-L/14@336: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-large-patch14-336'
