@@ -27,8 +27,3 @@ if __name__ == "__main__":
     seed_everything(config['seed'], workers=True)
 
     task_processor_inbatch(config)
-
-
-
-
-    
