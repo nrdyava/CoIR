@@ -7,7 +7,6 @@ from src.utils.runner_utils import start_of_a_run
 from task_processor import task_processor
 
 
-
 if __name__ == "__main__":
     config = start_of_a_run()
     

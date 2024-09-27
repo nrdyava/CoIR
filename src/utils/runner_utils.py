@@ -21,7 +21,7 @@ def register_run(args, run_start_time_local, config, run_dir):
     write_text += f"run start time: {run_start_time_local} {ltz}\n"
     
     task = config["task"]
-    write_text += f"exp name: {task}\n"
+    write_text += f"task: {task}\n"
     
     run_name = config["run_name"]
     write_text += f"run name: {run_name}\n"
@@ -36,7 +36,7 @@ def register_run(args, run_start_time_local, config, run_dir):
     write_text += f"model_type: {model_type}\n"
         
     dataset = config["dataset_to_use"]
-    write_text += f"exp name: {dataset}\n"
+    write_text += f"dataset_to_use: {dataset}\n"
     
     config_file_path = os.path.join(run_dir, 'config.yaml')
     write_text += f"configuration file path: {config_file_path}\n"
@@ -61,26 +61,28 @@ def register_run(args, run_start_time_local, config, run_dir):
 def start_of_a_run():
     args = parse_args()
     config = copy.deepcopy(yaml.safe_load(open(args.config_file, 'r')))
-    start_of_a_run_rank_zero(args, config)
-    return config
-
-
-@rank_zero_only
-def start_of_a_run_rank_zero(args, config):
+    
     run_start_time_utc = datetime.now(pytz.utc)
     run_start_time_local = run_start_time_utc.astimezone(pytz.timezone(config["local_time_zone"])).strftime("%Y-%m-%d-%H-%M-%S-%f")
     run_name = run_start_time_local + ' + ' + config['exp_name']
     config['run_name'] = run_name
     config['wandb_name'] = run_name
     
-    # create a directory to store the results of the run
     runs_dir = config["runs_dir"]
     run_dir = os.path.join(runs_dir, run_name)
-    os.mkdir(run_dir)
     config['run_dir'] = run_dir
     
+    start_of_a_run_rank_zero(args, config)
+    return config
+
+
+@rank_zero_only
+def start_of_a_run_rank_zero(args, config):
+    # create a directory to store the results of the run
+    os.mkdir(config['run_dir'])
+    
     # save the configuration file in the run directory. Useful to later check the configuration used for the run.
-    yaml.dump(config, open(os.path.join(run_dir, 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
+    yaml.dump(config, open(os.path.join(config['run_dir'], 'config.yaml'), 'w'), default_flow_style=False, sort_keys=False)
     
     # register the run in the run_registry.txt file
     register_run(args, run_start_time_local, config, run_dir) 

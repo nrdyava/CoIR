@@ -8,9 +8,9 @@ dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
 
 #pretrained_checkpoint_path: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch32'
 #checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
-resume_training_from_checkpoint: '/proj/vondrick2/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+resume_training_from_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
 #resume_from_checkpoint: None
-test_at_checkpoint: '/proj/vondrick2/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+test_at_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
 
 image_encoder_mode: 'train' # choices: [train, freeze]
 text_encoder_mode: 'train' # choices: [train, freeze]
@@ -78,12 +78,12 @@ trainer:
 wandb:
   project: coir
 
-runs_dir: '/proj/vondrick2/naveen/coir-runs'
-run_registry_file: '/proj/vondrick2/naveen/coir-run-registry.txt'
+runs_dir: '/proj/vondrick4/naveen/coir-runs'
+run_registry_file: '/proj/vondrick4/naveen/coir-run-registry.txt'
 
 # Redundant values for rank != 0
-run_dir: 'redundant_name_for_rank != 0'
-wandb_name: 'redundant_name_for_rank != 0'
+#run_dir: 'redundant_name_for_rank != 0'
+#wandb_name: 'redundant_name_for_rank != 0'
 
 
 data:
@@ -111,7 +111,7 @@ float32_matmul_precision: high
 
 # CLIP Model Registry
 clip_checkpoints:
-  CLIP-ViT-B/16: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch16'
-  CLIP-ViT-B/32: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch32'
-  CLIP-ViT-L/14: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-large-patch14'
-  CLIP-ViT-L/14@336: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-large-patch14-336'
+  CLIP-ViT-B/16: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch16'
+  CLIP-ViT-B/32: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch32'
+  CLIP-ViT-L/14: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14'
+  CLIP-ViT-L/14@336: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14-336'
