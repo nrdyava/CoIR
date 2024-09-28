@@ -5,7 +5,7 @@ import json
 from transformers import AutoProcessor, AutoTokenizer
 
 
-class clip_inbatch_2en_dataset(torch.utils.data.Dataset):
+class dataset(torch.utils.data.Dataset):
     def __init__(self, config, dataset_split):
         self.config = config
         self.lasco_data_path = config['data']['lasco']['dir']
@@ -45,8 +45,8 @@ class clip_inbatch_2en_dataset(torch.utils.data.Dataset):
             print(lasco_splits[self.config['dataset_split']])
 
         # Image processor & tokenizer
-        self.image_processor = AutoProcessor.from_pretrained(config(config['clip_checkpoints'][config['model_type']]))
-        self.tokenizer = AutoTokenizer.from_pretrained(config(config['clip_checkpoints'][config['model_type']]))
+        self.image_processor = AutoProcessor.from_pretrained(config['clip_checkpoints'][config['model_type']])
+        self.tokenizer = AutoTokenizer.from_pretrained(config['clip_checkpoints'][config['model_type']])
 
     def load_and_process_image(self, img_path):
         image = Image.open(img_path)

@@ -1,10 +1,10 @@
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader
-from src.datasets.clip_inbatch_2en import clip_inbatch_2en_dataset
+from src.datasets.clip_inbatch_2en import dataset as clip_inbatch_2en_dataset
 
 class DataModule(LightningDataModule):
     def __init__(self, config):
-        super(DataModule).__init__()
+        super().__init__()
         self.config = config
         
         self.batch_size = config['dataloader']['batch_size']

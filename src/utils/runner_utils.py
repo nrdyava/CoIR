@@ -72,12 +72,12 @@ def start_of_a_run():
     run_dir = os.path.join(runs_dir, run_name)
     config['run_dir'] = run_dir
     
-    start_of_a_run_rank_zero(args, config)
+    start_of_a_run_rank_zero(args, config, run_start_time_local, run_dir)
     return config
 
 
 @rank_zero_only
-def start_of_a_run_rank_zero(args, config):
+def start_of_a_run_rank_zero(args, config, run_start_time_local, run_dir):
     # create a directory to store the results of the run
     os.mkdir(config['run_dir'])
     
