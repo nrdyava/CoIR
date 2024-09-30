@@ -16,6 +16,10 @@ image_encoder_mode: 'freeze' # choices: [train, freeze]
 text_encoder_mode: 'train' # choices: [train, freeze]
 
 
+data_augmentation:
+  enable: True
+
+
 dataloader:
   batch_size: 200
   num_workers: 4
@@ -29,12 +33,12 @@ dataloader:
 
 
 optimizer:
-  lr: 0.0001
+  lr: 0.001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.01
   # LR Scheduler parameters (ConsineAnnealingLR)
-  eta_min: 0.000001
+  eta_min: 0.00001
 
 
 loss_fn:
@@ -44,7 +48,7 @@ loss_fn:
   #temp_clamp_max: 100
 
 trainer:
-  max_epochs: 100
+  max_epochs: 30
   min_epochs: 1
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 

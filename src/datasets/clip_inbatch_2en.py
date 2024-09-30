@@ -1,5 +1,6 @@
 import os
 import torch
+import torchvision.transforms as transforms
 from PIL import Image
 import json
 from transformers import AutoProcessor, AutoTokenizer
@@ -47,10 +48,17 @@ class dataset(torch.utils.data.Dataset):
         # Image processor & tokenizer
         self.image_processor = AutoProcessor.from_pretrained(config['clip_checkpoints'][config['model_type']])
         self.tokenizer = AutoTokenizer.from_pretrained(config['clip_checkpoints'][config['model_type']])
+        self.dataset_split = dataset_split
+        self.data_aug_enabled = config['data_augmentation']['enable']
+        self.data_aug_transform = transforms.RandomHorizontalFlip(p=0.5)
 
     def load_and_process_image(self, img_path):
         image = Image.open(img_path)
         processed_image = self.image_processor(images=image, return_tensors="pt")
+        
+        if self.dataset_split == 'train' and self.data_aug_enabled == True:
+            processed_image['pixel_values'] = self.data_aug_transform(processed_image['pixel_values'])
+        
         return processed_image
 
     def __len__(self):

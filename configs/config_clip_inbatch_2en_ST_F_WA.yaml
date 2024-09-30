@@ -16,6 +16,10 @@ image_encoder_mode: 'train' # choices: [train, freeze]
 text_encoder_mode: 'train' # choices: [train, freeze]
 
 
+data_augmentation:
+  enable: True
+
+
 dataloader:
   batch_size: 50
   num_workers: 5
