@@ -7,7 +7,7 @@ from transformers import AutoProcessor, AutoTokenizer
 from torch.utils.data import DataLoader, Dataset
 
 class lasco_retrieval_dataset_clip(Dataset):
-    def __init__(self, dataset_split, lasco_data_path, clip_ckpt_path, device):
+    def __init__(self, dataset_split, lasco_data_path, clip_ckpt_path):
         """
         Args:
             dataset_split (string): options: ['train', 'val']
@@ -71,8 +71,8 @@ class lasco_retrieval_dataset_clip(Dataset):
         }
 
     def collate_fn(self, batch):
-        query_text = list(map(lambda x: x['query-text'], batch))
-        query_text = self.tokenizer(query_text, padding=True, return_tensors="pt")
+        query_text_raw = list(map(lambda x: x['query-text'], batch))
+        query_text = self.tokenizer(query_text_raw, padding=True, return_tensors="pt")
         
         query_image_ids = list(map(lambda x: x['query-image-id'], batch))
         target_image_ids = list(map(lambda x: x['target-image-id'], batch))
@@ -85,5 +85,6 @@ class lasco_retrieval_dataset_clip(Dataset):
             'query-image': query_image,
             'target-image-id': target_image_ids,
             'query-text': query_text,
+            'query-text-raw': query_text_raw,
             'id': ids
         }

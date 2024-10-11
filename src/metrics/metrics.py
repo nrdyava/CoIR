@@ -1,6 +1,6 @@
 import numpy as np
 
-def calculate_recall(data, k):
+def calculate_recall(ground_truths, retrieved_candidates, k):
     """
     Calculate recall@k for the given dataset.
 
@@ -10,9 +10,6 @@ def calculate_recall(data, k):
     :param k: top k retrieved candidates to consider for recall.
     :return: recall@k value
     """
-    keys = data[:, 0]
-    ground_truths = data[:, 1]
-    retrieved_candidates = data[:, 2:]
 
     # Check if the ground truth is within the top k retrieved candidates
     correct_predictions = np.any(retrieved_candidates[:, :k] == ground_truths[:, np.newaxis], axis=1)

@@ -7,7 +7,7 @@ from transformers import AutoProcessor, AutoTokenizer
 from torch.utils.data import DataLoader, Dataset
 
 class lasco_corpus_dataset_clip(Dataset):
-    def __init__(self, dataset_split, lasco_data_path, clip_ckpt_path, device):
+    def __init__(self, dataset_split, lasco_data_path, clip_ckpt_path):
         """
         Args:
             dataset_split (string): options: ['train', 'val']
