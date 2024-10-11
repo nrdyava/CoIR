@@ -60,8 +60,8 @@ trainer:
   fast_dev_run: False
   limit_train_batches: 1.0
   limit_val_batches: 1.0
-  limit_test_batches: 0.1
-  limit_predict_batches: 0.1
+  limit_test_batches: 1.0
+  limit_predict_batches: 1.0
   profiler: 'None' # ['None', 'simple', 'advanced', 'pytorch']
   num_nodes: 1
   precision: '32-true'
@@ -71,11 +71,11 @@ trainer:
   deterministic: True
   benchmark: True
   model_checkpoint_callback:
-    every_n_epochs: 1
+    every_n_epochs: 5
     monitor: 'val_loss'
     mode: 'min'
     save_top_k: -1
-    filename: 'checkpoint-{epoch:02d}-{val_loss:.10f}'
+    filename: 'checkpoint-{epoch:03d}'
     enable_version_counter: False
 
 

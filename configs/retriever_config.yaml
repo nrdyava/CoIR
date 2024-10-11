@@ -1,0 +1,47 @@
+exp_type: 'clip_inbatch_2en_ST_F_img_proj'       # choices: ['clip_inbatch_2en_ST_F', 'clip_inbatch_2en_ST_F_img_proj']
+model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
+
+test_at_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+
+dataloader:
+  batch_size: 2
+  num_workers: 2
+  pin_memory: True
+  shuffle:
+    train: True
+    val: False
+    test: False
+  persistent_workers: True
+  drop_last: False
+
+
+data:
+  lasco:
+    dir: '/local/vondrick/naveen/coir-data/LaSCo'
+    splits: ['train', 'val']
+  fashioniq:
+    dir: '/local/vondrick/naveen/coir-data/FashionIQ'
+    splits: ['train', 'val', 'test']
+  cirr:
+    dir: '/local/vondrick/naveen/coir-data/CIRR'
+    splits: ['train', 'val', 'test1']
+  circo:
+    dir: '/local/vondrick/naveen/coir-data/CIRCO'
+    splits: ['val', 'test']
+
+
+seed: 42
+local_time_zone: 'US/Eastern'
+TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+float32_matmul_precision: high
+
+
+# CLIP Model Registry
+clip_checkpoints:
+  CLIP-ViT-B/16: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch16'
+  CLIP-ViT-B/32: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch32'
+  CLIP-ViT-L/14: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14'
+  CLIP-ViT-L/14@336: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14-336'

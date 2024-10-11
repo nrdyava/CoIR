@@ -75,7 +75,7 @@ trainer:
     monitor: 'val_loss'
     mode: 'min'
     save_top_k: -1
-    filename: 'checkpoint-{epoch:02d}-{val_loss:.10f}'
+    filename: 'checkpoint-{epoch:03d}'
     enable_version_counter: False
 
 
