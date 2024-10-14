@@ -61,10 +61,13 @@ class CLIPModel(L.LightningModule):
 
         query_text_embeds = self.text_encoder(**query_text).text_embeds
         query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
+        
+        weights = torch.nn.functional.softmax(torch.stack([self.w_img, self.w_txt]), dim=0)
+        target_hat_embeds = weights[0] * query_image_embeds + weights[1] * query_text_embeds
+        target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        return {
-            'query-image-embeds': query_image_embeds, 
-            'query-text-embeds': query_text_embeds
+        return{
+            'target-hat-embeds': target_hat_embeds
         }
     
     

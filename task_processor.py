@@ -13,7 +13,7 @@ def task_processor(config):
             raise Exception("Loading model failed.")
         
         try :
-            xdatamodule = datamodule_registry[exp_type_to_data_module_mapper(config)](config)
+            datamodule = datamodule_registry[exp_type_to_data_module_mapper(config)](config)
         except:
             return Exception("Loading datamodule failed.")
 

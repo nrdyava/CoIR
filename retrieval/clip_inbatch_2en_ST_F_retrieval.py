@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-device = 1
-results_name = 'CLIP-ViT-B-16'
-clip_model = 'CLIP-ViT-B/16' # Options: ['CLIP-ViT-B/16', 'CLIP-ViT-B/32', 'CLIP-ViT-L/14', 'CLIP-ViT-L/14@336']
+device = 3
+checkpoint = 'checkpoint-epoch=06-val_loss=0.6384052634.ckpt'
+exp_name = '2024-09-28-05-27-16-508193 + clip_inbatch_2en_ST_F'
 batch_size=64
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'
+runs_dir = '/proj/vondrick4/naveen/coir-runs'
 dataset_split = 'val'
 lasco_data_path = '/local/vondrick/naveen/coir-data/LaSCo'
 device_map = 'cuda:{}'.format(device)
@@ -42,31 +43,102 @@ import json
 from src.datasets.lasco_corpus_dataset import lasco_corpus_dataset_clip
 from src.datasets.lasco_retrieval_dataset import lasco_retrieval_dataset_clip
 from src.metrics.metrics import calculate_recall
+from src.models.clip.inbatch_2en_ST_F import CLIPModel
+
+
+# In[ ]:
 
 
 
-os.makedirs(os.path.join(out_dir, results_name), exist_ok=True)
-clip_checkpoint_path = clip_checkpoints[clip_model]
-print('Using device: {}'.format(device_map))
+
+
+# In[4]:
+
+
+os.makedirs(os.path.join(out_dir, exp_name), exist_ok=True)
+
+
+# In[ ]:
 
 
 
 
-image_encoder = CLIPVisionModelWithProjection.from_pretrained(pretrained_model_name_or_path=clip_checkpoint_path, local_files_only=True).to(device)
-text_encoder = CLIPTextModelWithProjection.from_pretrained(pretrained_model_name_or_path=clip_checkpoint_path, local_files_only=True).to(device)
 
-image_encoder.eval()
-text_encoder.eval()
+# In[5]:
+
+
+checkpoint_path = os.path.join(runs_dir, exp_name, checkpoint)
+
+
+# In[6]:
+
+
+model = CLIPModel.load_from_checkpoint(
+    checkpoint_path = checkpoint_path, 
+    map_location=device_map
+)
 print('Model loaded')
 
 
+# In[ ]:
 
-d = image_encoder.config.projection_dim
+
+
+
+
+# In[7]:
+
+
+model.eval()
+
+
+# In[ ]:
+
+
+
+
+
+# In[8]:
+
+
+clip_checkpoint_path = clip_checkpoints[model.config['model_type']]
+
+
+# In[ ]:
+
+
+
+
+
+# In[9]:
+
+
+print('Using device: {}'.format(device_map))
+
+
+# In[ ]:
+
+
+
+
+
+# In[10]:
+
+
+d = model.image_encoder.config.projection_dim
 index = faiss.IndexFlatIP(d)
 
 res = faiss.StandardGpuResources()
 index = faiss.index_cpu_to_gpu(res, device, index)
 
+
+# In[ ]:
+
+
+
+
+
+# In[11]:
 
 
 corpus_dataset = lasco_corpus_dataset_clip(dataset_split, lasco_data_path, clip_checkpoint_path)
@@ -82,6 +154,7 @@ corpus_dataloader = DataLoader(
 )
 
 
+# In[12]:
 
 
 retrieval_dataset = lasco_retrieval_dataset_clip(dataset_split, lasco_data_path, clip_checkpoint_path)
@@ -97,6 +170,13 @@ retrieval_dataloader = DataLoader(
 )
 
 
+# In[ ]:
+
+
+
+
+
+# In[13]:
 
 
 # Create embeddings of images in the corpus
@@ -104,24 +184,39 @@ index_cntr = 0
 index_id_to_image_id_map = {}
 
 for batch_idx, batch in enumerate(tqdm(corpus_dataloader, desc="Indexing Corpus")):
+    batch['image']['pixel_values'] = batch['image']['pixel_values'].to(device_map)
     with torch.no_grad():
-        batch['image']['pixel_values'] = batch['image']['pixel_values'].to(device_map)
-        image_embeds = image_encoder(**batch['image']).image_embeds
-        image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1,keepdim=True)
-        index.add(image_embeds.cpu())
+        image_embeds = model.img_forward(batch)
+    index.add(image_embeds['image-embeds'].cpu())
 
-        batch_len = len(batch['image-key'])
-        batch_start_indx = index_cntr
-        batch_end_indx = batch_start_indx + batch_len
+    batch_len = len(batch['image-key'])
+    batch_start_indx = index_cntr
+    batch_end_indx = batch_start_indx + batch_len
 
-        for key, value in zip(list(range(batch_start_indx, batch_end_indx)), batch['image-key']):
-            index_id_to_image_id_map[key] = value
-        index_cntr += batch_len
+    for key, value in zip(list(range(batch_start_indx, batch_end_indx)), batch['image-key']):
+        index_id_to_image_id_map[key] = value
+    index_cntr += batch_len
 
+
+# In[ ]:
+
+
+
+
+
+# In[14]:
 
 
 map_func = np.vectorize(lambda x: index_id_to_image_id_map[x])
 
+
+# In[ ]:
+
+
+
+
+
+# In[15]:
 
 
 output = []
@@ -132,16 +227,9 @@ for batch_idx, batch in enumerate(tqdm(retrieval_dataloader , desc="Retrieval Ta
         batch['query-text']['input_ids'] = batch['query-text']['input_ids'].to(device_map)
         batch['query-text']['attention_mask'] = batch['query-text']['attention_mask'].to(device_map)
         
-        query_image_embeds = image_encoder(**batch['query-image']).image_embeds
-        query_image_embeds = query_image_embeds / torch.linalg.vector_norm(query_image_embeds, ord=2, dim=1,keepdim=True)
-        
-        query_text_embeds = text_encoder(**batch['query-text']).text_embeds
-        query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1,keepdim=True)
+        target_hat_embeds = model.img_txt_forward(batch)
 
-    target_hat_embeds = query_image_embeds + query_text_embeds
-    target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
-
-    D, I = index.search(target_hat_embeds.cpu(), k=50)
+    D, I = index.search(target_hat_embeds['target-hat-embeds'].cpu(), k=50)
     I = map_func(I)
 
     batch_size = len(batch['query-image-id'])
@@ -156,11 +244,26 @@ for batch_idx, batch in enumerate(tqdm(retrieval_dataloader , desc="Retrieval Ta
         })
 
 
+# In[ ]:
 
 
-with open(os.path.join(out_dir, results_name, 'outputs'+'-lasco-'+dataset_split+'.json'), "w") as json_file:
+
+
+
+# In[16]:
+
+
+with open(os.path.join(out_dir, exp_name, 'outputs'+'-'+checkpoint+'.json'), "w") as json_file:
     json.dump(output, json_file, indent=4)
 
+
+# In[ ]:
+
+
+
+
+
+# In[17]:
 
 
 metrics = []
@@ -172,5 +275,72 @@ metrics.append({"Recall@5": 100*calculate_recall(ground_truths, retrieved_candid
 metrics.append({"Recall@10": 100*calculate_recall(ground_truths, retrieved_candidates, 10)})
 metrics.append({"Recall@50": 100*calculate_recall(ground_truths, retrieved_candidates, 50)})
 
-with open(os.path.join(out_dir, results_name, 'metrics'+'-lasco-'+dataset_split+'.json'), "w") as json_file:
+with open(os.path.join(out_dir, exp_name, 'metrics'+'-'+checkpoint+'.json'), "w") as json_file:
     json.dump(metrics, json_file, indent=4)
+
+
+# In[ ]:
+
+
+
+
+
+# In[18]:
+
+
+metrics
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+

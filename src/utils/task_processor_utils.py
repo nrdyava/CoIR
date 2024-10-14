@@ -1,13 +1,15 @@
 exp_type_to_model_module_map = {
     'clip_inbatch_2en_ST_F': 'clip_inbatch_2en_ST_F',
     'clip_inbatch_2en_ST_F_WA': 'clip_inbatch_2en_ST_F_WA',
-    'clip_inbatch_2en_ST_F_img_proj': 'clip_inbatch_2en_ST_F_img_proj'
+    'clip_inbatch_2en_ST_F_img_proj': 'clip_inbatch_2en_ST_F_img_proj',
+    'clip_inbatch_2en_ST_F_img_proj_txt_proj': 'clip_inbatch_2en_ST_F_img_proj_txt_proj'
 }
 
 exp_type_to_data_module_map = {
     'clip_inbatch_2en_ST_F': 'generic_dm_with_dist_sampler',
     'clip_inbatch_2en_ST_F_WA': 'generic_dm_with_dist_sampler',
-    'clip_inbatch_2en_ST_F_img_proj': 'generic_dm_with_dist_sampler'
+    'clip_inbatch_2en_ST_F_img_proj': 'generic_dm_with_dist_sampler',
+    'clip_inbatch_2en_ST_F_img_proj_txt_proj': 'generic_dm_with_dist_sampler'
 }
 
 def exp_type_to_model_module_mapper(config):

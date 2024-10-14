@@ -1,7 +1,7 @@
-exp_name: 'clip_inbatch_2en_ST_F_img_proj_low_lr_200eps'
-comments: 'Image fronzen and projected with trainable matrix, Text trainable encoder, single task, only forward, CLIP-ViT-B/32 model finetuning; learning rate = 1e-4'
+exp_name: 'clip_inbatch_2en_ST_F_img_proj_text_proj'
+comments: 'Image fronzen and projected with trainable matrix, Text trainable encoder projected with trainable matrix, single task, only forward, CLIP-ViT-B/32 model finetuning; learning rate = 1e-4'
 
-exp_type: 'clip_inbatch_2en_ST_F_img_proj'       # choices: ['clip_inbatch_2en_ST_F', 'clip_inbatch_2en_ST_F_img_proj']
+exp_type: 'clip_inbatch_2en_ST_F_img_proj_txt_proj'       # choices: ['clip_inbatch_2en_ST_F', 'clip_inbatch_2en_ST_F_img_proj']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]

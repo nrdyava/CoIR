@@ -47,6 +47,7 @@ class CLIPModel(L.LightningModule):
     def img_forward(self, batch):
         image = batch['image']
         image_embeds = self.image_encoder(**image).image_embeds
+        image_embeds = self.image_vector_proj_mat(image_embeds)
         image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1, keepdim=True)
         return {'image-embeds': image_embeds}
     
@@ -54,16 +55,19 @@ class CLIPModel(L.LightningModule):
     def img_txt_forward(self, batch):
         query_image = batch['query-image']
         query_text = batch['query-text']
-
+        
         query_image_embeds = self.image_encoder(**query_image).image_embeds
+        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
         query_image_embeds = query_image_embeds / torch.linalg.vector_norm(query_image_embeds, ord=2, dim=1,keepdim=True)
-
+        
         query_text_embeds = self.text_encoder(**query_text).text_embeds
         query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
+        
+        target_hat_embeds = query_image_embeds + query_text_embeds
+        target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
-        return {
-            'query-image-embeds': query_image_embeds, 
-            'query-text-embeds': query_text_embeds
+        return{
+            'target-hat-embeds': target_hat_embeds
         }
     
     
@@ -73,12 +77,14 @@ class CLIPModel(L.LightningModule):
         target_image = batch['target-image']
 
         query_image_embeds = self.image_encoder(**query_image).image_embeds
+        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
         query_image_embeds = query_image_embeds / torch.linalg.vector_norm(query_image_embeds, ord=2, dim=1,keepdim=True)
         
         query_text_embeds = self.text_encoder(**query_text).text_embeds
         query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
 
         target_image_embeds = self.image_encoder(**target_image).image_embeds
+        target_image_embeds = self.image_vector_proj_mat(target_image_embeds)
         target_image_embeds = target_image_embeds / torch.linalg.vector_norm(target_image_embeds, ord=2, dim=1,keepdim=True)
 
         return {
@@ -94,16 +100,13 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
-        
-        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
 
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
         loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale)
         
-        optimizer = self.optimizers()
-        current_lr = optimizer.param_groups[0]['lr']
+        current_lr = self.optimizers().param_groups[0]['lr']
         
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('logit_scale', self.logit_scale.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
@@ -123,8 +126,6 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
-        
-        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
 
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)

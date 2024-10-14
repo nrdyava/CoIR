@@ -30,6 +30,7 @@ class CLIPModel(L.LightningModule):
             pretrained_model_name_or_path=self.pretrained_clip_model_ckpt, 
             local_files_only=True
             )
+        self.image_vector_proj_mat = torch.nn.Linear(self.image_encoder.config.projection_dim, self.text_encoder.config.projection_dim)
         # Define any extra model layers here
         
         if self.image_encoder_mode == 'freeze':
@@ -53,10 +54,11 @@ class CLIPModel(L.LightningModule):
     def img_txt_forward(self, batch):
         query_image = batch['query-image']
         query_text = batch['query-text']
-
+        
         query_image_embeds = self.image_encoder(**query_image).image_embeds
         query_image_embeds = query_image_embeds / torch.linalg.vector_norm(query_image_embeds, ord=2, dim=1,keepdim=True)
-
+        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
+        
         query_text_embeds = self.text_encoder(**query_text).text_embeds
         query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
         
@@ -95,6 +97,8 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
+        
+        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
 
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
@@ -122,6 +126,8 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
+        
+        query_image_embeds = self.image_vector_proj_mat(query_image_embeds)
 
         target_hat_embeds = query_image_embeds + query_text_embeds
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
