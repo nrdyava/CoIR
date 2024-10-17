@@ -1,4 +1,4 @@
-exp_name: 'clip_inbatch_2en_ST_F'
+exp_name: 'clip_inbatch_2en_ST_F_RERUN_LR_1e-3'
 comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning'
 
 exp_type: 'clip_inbatch_2en_ST_F'       # choices: ['clip_inbatch_2en_ST_F']
@@ -33,7 +33,7 @@ dataloader:
 
 
 optimizer:
-  lr: 0.00001
+  lr: 0.001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.01
@@ -48,7 +48,7 @@ loss_fn:
   #temp_clamp_max: 100
 
 trainer:
-  max_epochs: 20
+  max_epochs: 100
   min_epochs: 1
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 

@@ -2,7 +2,7 @@
 # coding: utf-8
 
 device = 1
-exp_name = '2024-10-12-18-11-59-191333 + clip_inbatch_2en_ST_F_img_proj_low_lr_200eps'
+exp_name = '2024-10-16-11-32-02-031010 + clip_inbatch_2en_ST_F_RERUN'
 batch_size=64
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'
@@ -43,7 +43,7 @@ import pandas as pd
 from src.datasets.lasco_corpus_dataset import lasco_corpus_dataset_clip
 from src.datasets.lasco_retrieval_dataset import lasco_retrieval_dataset_clip
 from src.metrics.metrics import calculate_recall
-from src.models.clip.inbatch_2en_ST_F_img_proj import CLIPModel
+from src.models.clip.inbatch_2en_ST_F import CLIPModel
 
 
 # In[ ]:
@@ -202,6 +202,9 @@ for checkpoint in checkpoints:
     }])
     exp_results = pd.concat([exp_results, new_row], ignore_index=True)
     exp_results.to_csv(os.path.join(out_dir, exp_name, 'experiment_results.csv'), index=False)
+    
+    del model
+    torch.cuda.empty_cache()
 
 
 # In[ ]:
