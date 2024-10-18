@@ -31,6 +31,7 @@ class CLIPModel(L.LightningModule):
             pretrained_model_name_or_path=self.pretrained_clip_model_ckpt, 
             local_files_only=True
             )
+        self.t_hat_proj_mat = torch.nn.Linear(self.image_encoder.config.projection_dim, self.image_encoder.config.projection_dim)
         # Define any extra model layers here
         
         if self.image_encoder_mode == 'freeze':
@@ -62,6 +63,7 @@ class CLIPModel(L.LightningModule):
         query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
         
         target_hat_embeds = query_image_embeds + query_text_embeds
+        target_hat_embeds = self.t_hat_proj_mat(target_hat_embeds)
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
         return{
@@ -98,6 +100,7 @@ class CLIPModel(L.LightningModule):
         target_image_embeds = outs['target-image-embeds']
 
         target_hat_embeds = query_image_embeds + query_text_embeds
+        target_hat_embeds = self.t_hat_proj_mat(target_hat_embeds)
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
         loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale)
@@ -125,6 +128,7 @@ class CLIPModel(L.LightningModule):
         target_image_embeds = outs['target-image-embeds']
 
         target_hat_embeds = query_image_embeds + query_text_embeds
+        target_hat_embeds = self.t_hat_proj_mat(target_hat_embeds)
         target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
 
         loss, avg_rank = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale)
