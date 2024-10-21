@@ -27,13 +27,16 @@ def loss_with_temp(embeds_1, embeds_2, logit_scale):
     return loss
 
 
-def asymetric_loss_with_temp(target_hat_embeds, target_image_embeds, logit_scale):
+def asymetric_loss_with_temp(target_hat_embeds, target_image_embeds, logit_scale, gpu_id):
     logits = torch.mm(target_hat_embeds, target_image_embeds.t())
     
     bs = logits.size(0)
-    labels = torch.arange(bs, device=logits.device)
+    #print("DEBUG: batch_size in loss: ", logits.size(1)) ## Comment this after debugging
+    labels = (gpu_id * bs + torch.arange(bs)).to(logits.device)
     
-    diagonal_elements = torch.diag(logits)
+    #print("logits size ", logits.size())
+    diagonal_elements = torch.diag(logits[:, gpu_id * bs: (gpu_id+1) * bs])
+    #print("diag_size ", diagonal_elements.size())
     avg_rank = torch.sum(logits >= diagonal_elements.unsqueeze(1), dim = 1).float().mean()
     
     _max_score, max_idxs = torch.max(logits, 1)

@@ -1,5 +1,5 @@
-exp_name: 'clip_inbatch_2en_ST_F_ON_GT_LR_1e-5'       # Experiment name
-comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training'
+exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_LR_1e-5'       # Experiment name
+comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled'
 
 exp_type: 'clip_inbatch_2en_ST_F_ON_GT'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
@@ -19,6 +19,7 @@ text_encoder_mode: 'train' # choices: [train, freeze]
 data_augmentation:
   enable: True
 
+gather_embeddings: True
 find_unused_parameters: False
 
 dataloader:
@@ -49,12 +50,12 @@ loss_fn:
   #temp_clamp_max: 100
 
 trainer:
-  max_epochs: 20
+  max_epochs: 30
   min_epochs: 1
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
   strategy: 'ddp' #[deepspeed_stage_3, deepspeed_stage_2, ddp]
-  devices: [2, 3, 4, 5, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
+  devices: [0, 1, 2, 3, 4, 5, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
   use_distributed_sampler: True
   log_every_n_steps: 20
   enable_checkpointing: True

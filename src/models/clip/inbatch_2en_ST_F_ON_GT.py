@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.distributed as dist
 import lightning as L
 from transformers import CLIPVisionModelWithProjection, CLIPTextModelWithProjection
 
@@ -41,6 +42,7 @@ class CLIPModel(L.LightningModule):
                 param.requires_grad = False
         
         self.loss_fn = loss_fn_registry[config['loss_fn']['name']]
+        self.gather_embeddings = config['gather_embeddings']
         self.save_hyperparameters()
     
     
@@ -98,17 +100,26 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
+        
+        batch_size = query_image_embeds.size(0)
 
         target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds)
         target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
         
         target_image_embeds = self.normalize_embeddings(target_image_embeds)
-
-        loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale)
+        
+        gpu_id = dist.get_rank()
+        
+        if self.gather_embeddings and dist.is_initialized():
+            gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_image_embeds, target_image_embeds)
+            target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
+        else:
+            loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         
         optimizer = self.optimizers()
         current_lr = optimizer.param_groups[0]['lr']
-        batch_size = query_image_embeds.size(0)
         #print("DEBUG: batch_size: ", batch_size) ## Comment this after debugging
         
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
@@ -118,8 +129,8 @@ class CLIPModel(L.LightningModule):
         self.log('learning_rate', current_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
 
         ## Debug metrics here. Comment out when not needed
-        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
-        self.log('train_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        #target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds[:, gpu_id * batch_size: (gpu_id+1) * batch_size], dim=1))
+        #self.log('train_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
 
         return loss
     
@@ -130,15 +141,23 @@ class CLIPModel(L.LightningModule):
         query_image_embeds = outs['query-image-embeds']
         query_text_embeds = outs['query-text-embeds']
         target_image_embeds = outs['target-image-embeds']
+        
+        batch_size = query_image_embeds.size(0)
 
         target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds)
         target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
         
         target_image_embeds = self.normalize_embeddings(target_image_embeds)
-
-        loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale)
         
-        batch_size = query_image_embeds.size(0)
+        gpu_id = dist.get_rank()
+        
+        if self.gather_embeddings and dist.is_initialized():
+            gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_image_embeds, target_image_embeds)
+            target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
+        else:
+            loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         
         
         self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
@@ -146,8 +165,8 @@ class CLIPModel(L.LightningModule):
         self.log('val_acc', acc.detach().cpu().numpy().item(), on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
 
         ## Debug metrics here. Comment out when not needed
-        target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
-        self.log('val_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        #target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds[:, gpu_id * batch_size: (gpu_id+1) * batch_size], dim=1))
+        #self.log('val_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         
     
     def configure_optimizers(self):
