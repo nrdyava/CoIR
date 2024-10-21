@@ -145,12 +145,12 @@ class CLIPModel(L.LightningModule):
         optimizer_align.step()
         optimizer_instruct.step()
         
-        scheduler_align, scheduler_instruct = self.lr_schedulers()
-        scheduler_align.step()
-        scheduler_instruct.step()
+        #scheduler_align, scheduler_instruct = self.lr_schedulers()
+        #scheduler_align.step()
+        #scheduler_instruct.step()
         
-        align_lr = scheduler_align.get_last_lr()[0]
-        instruct_lr = scheduler_instruct.get_last_lr()[0]
+        #align_lr = scheduler_align.get_last_lr()[0]
+        #instruct_lr = scheduler_instruct.get_last_lr()[0]
         
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('train_loss_align', loss_align, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
@@ -160,8 +160,8 @@ class CLIPModel(L.LightningModule):
         self.log('logit_scale_instruct', self.logit_scale_instruct.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
         
         self.log('train_avg_rank', avg_rank.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('align_LR', align_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('instruct_LR', instruct_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        #self.log('align_LR', align_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        #self.log('instruct_LR', instruct_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
 
         ## Debug metrics here. Comment out when not needed
         target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds, dim=1))
@@ -218,7 +218,8 @@ class CLIPModel(L.LightningModule):
         self.scheduler_align = torch.optim.lr_scheduler.CosineAnnealingLR(
             self.optimizer_align, 
             T_max=self.trainer.max_epochs, 
-            eta_min=self.config['optimizer']['align_optimizer']['eta_min']
+            eta_min=self.config['optimizer']['align_optimizer']['eta_min'],
+            
         )
         
         self.scheduler_instruct = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -227,8 +228,11 @@ class CLIPModel(L.LightningModule):
             eta_min=self.config['optimizer']['instruct_optimizer']['eta_min']
         )
         
+        return ([self.optimizer_align, self.optimizer_instruct])
+        """
         return (
             [self.optimizer_align, self.optimizer_instruct],
-            [{'scheduler': self.scheduler_align, 'interval': self.config['optimizer']['align_optimizer']['interval'], 'frequency': self.config['optimizer']['align_optimizer']['frequency']}, 
-             {'scheduler': self.scheduler_instruct, 'interval': self.config['optimizer']['instruct_optimizer']['interval'], 'frequency': self.config['optimizer']['instruct_optimizer']['frequency']}]
-        )
+            [{'scheduler': self.scheduler_align, 'interval': 'epoch', 'frequency': 1}, 
+             {'scheduler': self.scheduler_instruct, 'interval': 'epoch', 'frequency': 1}]
+            )
+        """
