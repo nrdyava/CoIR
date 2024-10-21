@@ -5,6 +5,8 @@ from lightning.pytorch import seed_everything
 
 from src.utils.runner_utils import start_of_a_run
 from task_processor import task_processor
+import warnings
+warnings.filterwarnings("ignore")
 
 
 if __name__ == "__main__":
