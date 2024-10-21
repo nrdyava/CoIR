@@ -4,7 +4,8 @@ exp_type_to_model_module_map = {
     'clip_inbatch_2en_ST_F_WA': 'clip_inbatch_2en_ST_F_WA',
     'clip_inbatch_2en_ST_F_img_proj': 'clip_inbatch_2en_ST_F_img_proj',
     'clip_inbatch_2en_ST_F_img_proj_txt_proj': 'clip_inbatch_2en_ST_F_img_proj_txt_proj',
-    'clip_inbatch_3en_MT_F_img_cap': 'clip_inbatch_3en_MT_F_img_cap'
+    'clip_inbatch_3en_MT_F_img_cap': 'clip_inbatch_3en_MT_F_img_cap',
+    'clip_inbatch_2en_ST_F_ON_GT': 'clip_inbatch_2en_ST_F_ON_GT'
 }
 
 exp_type_to_data_module_map = {
@@ -13,7 +14,8 @@ exp_type_to_data_module_map = {
     'clip_inbatch_2en_ST_F_WA': 'generic_dm_with_dist_sampler',
     'clip_inbatch_2en_ST_F_img_proj': 'generic_dm_with_dist_sampler',
     'clip_inbatch_2en_ST_F_img_proj_txt_proj': 'generic_dm_with_dist_sampler', 
-    'clip_inbatch_3en_MT_F_img_cap': 'MT_3en_F_img_caps_dm_with_dist_sampler'
+    'clip_inbatch_3en_MT_F_img_cap': 'MT_3en_F_img_caps_dm_with_dist_sampler',
+    'clip_inbatch_2en_ST_F_ON_GT': 'generic_dm_with_dist_sampler'
 }
 
 def exp_type_to_model_module_mapper(config):
@@ -33,7 +35,7 @@ from lightning.pytorch.strategies import DDPStrategy
 def get_trainer_args(config):
     trainer_args = {
         'accelerator': config['trainer']['accelerator'],
-        'strategy': DDPStrategy(find_unused_parameters=True) if config['trainer']['strategy'] == 'ddp' else config['trainer']['strategy'],
+        'strategy': DDPStrategy(find_unused_parameters=True) if (config['trainer']['strategy'] == 'ddp' and config['find_unused_parameters'] == True) else config['trainer']['strategy'],
         'devices': config['trainer']['devices'],
         'num_nodes': config['trainer']['num_nodes'],
         'precision': config['trainer']['precision'],

@@ -25,3 +25,24 @@ def loss_with_temp(embeds_1, embeds_2, logit_scale):
     loss_B = torch.nn.functional.cross_entropy(logits_per_B, labels)
     loss = (loss_A + loss_B) / 2.0
     return loss
+
+
+def asymetric_loss_with_temp(target_hat_embeds, target_image_embeds, logit_scale):
+    logits = torch.mm(target_hat_embeds, target_image_embeds.t())
+    
+    bs = logits.size(0)
+    labels = torch.arange(bs, device=logits.device)
+    
+    diagonal_elements = torch.diag(logits)
+    avg_rank = torch.sum(logits >= diagonal_elements.unsqueeze(1), dim = 1).float().mean()
+    
+    _max_score, max_idxs = torch.max(logits, 1)
+    acc = (max_idxs == labels).sum() / bs
+    
+    logits = logits*torch.clamp(logit_scale.exp(), max=100)
+    
+    loss = torch.nn.functional.cross_entropy(logits, labels)
+    
+    return loss, avg_rank, acc
+    
+    
