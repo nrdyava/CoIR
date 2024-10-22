@@ -42,30 +42,26 @@ class CLIPModel(L.LightningModule):
                 param.requires_grad = False
         
         self.loss_fn = loss_fn_registry[config['loss_fn']['name']]
-        self.gather_embeddings = config['gather_embeddings']
+        #self.gather_embeddings = config['gather_embeddings']
         self.save_hyperparameters()
     
     
     def img_forward(self, batch):
         image = batch['image']
         image_embeds = self.image_encoder(**image).image_embeds
-        image_embeds = image_embeds / torch.linalg.vector_norm(image_embeds, ord=2, dim=1, keepdim=True)
+        image_embeds = self.normalize_embeddings(image_embeds)
         return {'image-embeds': image_embeds}
     
     
     def img_txt_forward(self, batch):
         query_image = batch['query-image']
         query_text = batch['query-text']
-
-        query_image_embeds = self.image_encoder(**query_image).image_embeds
-        query_image_embeds = query_image_embeds / torch.linalg.vector_norm(query_image_embeds, ord=2, dim=1,keepdim=True)
-
-        query_text_embeds = self.text_encoder(**query_text).text_embeds
-        query_text_embeds = query_text_embeds / torch.linalg.vector_norm(query_text_embeds, ord=2, dim=1, keepdim=True)
         
-        target_hat_embeds = query_image_embeds + query_text_embeds
-        target_hat_embeds = self.t_hat_proj_mat(target_hat_embeds)
-        target_hat_embeds = target_hat_embeds / torch.linalg.vector_norm(target_hat_embeds, ord=2, dim=1, keepdim=True)
+        query_image_embeds = self.image_encoder(**query_image).image_embeds
+        query_text_embeds = self.text_encoder(**query_text).text_embeds
+        
+        target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds)
+        target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
 
         return{
             'target-hat-embeds': target_hat_embeds

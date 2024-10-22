@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[1]:
+
+
 device = 1
-exp_name = '2024-10-16-11-32-02-031010 + clip_inbatch_2en_ST_F_RERUN'
-batch_size=64
+exp_name = '2024-10-21-09-05-24-119618 + clip_inbatch_2en_ST_F_ON_GTY_VIT_L_14_LR_1e-5'
+batch_size=8
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'
 runs_dir = '/proj/vondrick4/naveen/coir-runs'
@@ -43,7 +46,7 @@ import pandas as pd
 from src.datasets.lasco_corpus_dataset import lasco_corpus_dataset_clip
 from src.datasets.lasco_retrieval_dataset import lasco_retrieval_dataset_clip
 from src.metrics.metrics import calculate_recall
-from src.models.clip.inbatch_2en_ST_F import CLIPModel
+from src.models.clip.inbatch_2en_ST_F_ON_GT import CLIPModel
 
 
 # In[ ]:
@@ -83,7 +86,7 @@ os.makedirs(os.path.join(out_dir, exp_name), exist_ok=True)
 
 print('Evaluating Experiment: {}'.format(exp_name))
 
-exp_results = pd.DataFrame(columns=['checkpoint', 'epoch', 'Recall@1', 'Recall@5', 'Recall@10', 'Recall@50'])
+exp_results = pd.DataFrame(columns=['checkpoint', 'epoch', 'Recall@1', 'Recall@5', 'Recall@10', 'Recall@50', 'Recall@100'])
 exp_results.to_csv(os.path.join(out_dir, exp_name, 'experiment_results.csv'), index=False)
 
 for checkpoint in checkpoints:
@@ -92,7 +95,8 @@ for checkpoint in checkpoints:
     print('Evaluating checkpoint: {}'.format(checkpoint))
     model = CLIPModel.load_from_checkpoint(
         checkpoint_path = checkpoint_path, 
-        map_location=device_map
+        map_location=device_map,
+        strict=False
     )
     model.eval()
     print('Model loaded')
@@ -152,13 +156,14 @@ for checkpoint in checkpoints:
     output = []
 
     for batch_idx, batch in enumerate(tqdm(retrieval_dataloader , desc="Retrieval Task")):
-        batch['query-image']['pixel_values'] = batch['query-image']['pixel_values'].to(device_map)
-        batch['query-text']['input_ids'] = batch['query-text']['input_ids'].to(device_map)
-        batch['query-text']['attention_mask'] = batch['query-text']['attention_mask'].to(device_map)
         with torch.no_grad():
+            batch['query-image']['pixel_values'] = batch['query-image']['pixel_values'].to(device_map)
+            batch['query-text']['input_ids'] = batch['query-text']['input_ids'].to(device_map)
+            batch['query-text']['attention_mask'] = batch['query-text']['attention_mask'].to(device_map)
+        
             target_hat_embeds = model.img_txt_forward(batch)
 
-        D, I = index.search(target_hat_embeds['target-hat-embeds'].cpu(), k=100)
+        D, I = index.search(target_hat_embeds['target-hat-embeds'].cpu(), k=1000)
         I = map_func(I)
 
         batch_size = len(batch['query-image-id'])
@@ -168,8 +173,8 @@ for checkpoint in checkpoints:
                 'query-image-id': batch['query-image-id'][i],
                 'target-image-id': batch['target-image-id'][i],
                 'query-text-raw': batch['query-text-raw'][i],
-                'top_50_ret_cands': I[i][:].tolist(),
-                'top_50_ret_cands_cos_sims': D[i][:].tolist()
+                'top_1000_ret_cands': I[i][:].tolist(),
+                'top_1000_ret_cands_cos_sims': D[i][:].tolist()
             })
 
     with open(os.path.join(out_dir, exp_name, 'outputs'+'-'+checkpoint+'.json'), "w") as json_file:
@@ -177,16 +182,22 @@ for checkpoint in checkpoints:
 
     metrics = []
     ground_truths = np.array(list(map(lambda x: x['target-image-id'], output)))
-    retrieved_candidates = np.array(list(map(lambda x: x['top_50_ret_cands'], output)))
+    retrieved_candidates = np.array(list(map(lambda x: x['top_1000_ret_cands'], output)))
 
     Recall_1 = 100*calculate_recall(ground_truths, retrieved_candidates, 1)
     Recall_5 = 100*calculate_recall(ground_truths, retrieved_candidates, 5)
     Recall_10 = 100*calculate_recall(ground_truths, retrieved_candidates, 10)
     Recall_50 = 100*calculate_recall(ground_truths, retrieved_candidates, 50)
+    Recall_100 = 100*calculate_recall(ground_truths, retrieved_candidates, 100)
+    Recall_500 = 100*calculate_recall(ground_truths, retrieved_candidates, 500)
+    Recall_1000 = 100*calculate_recall(ground_truths, retrieved_candidates, 1000)
     metrics.append({"Recall@1": Recall_1})
     metrics.append({"Recall@5": Recall_5})
     metrics.append({"Recall@10": Recall_10})
     metrics.append({"Recall@50": Recall_50})
+    metrics.append({"Recall@100": Recall_100})
+    metrics.append({"Recall@500": Recall_500})
+    metrics.append({"Recall@1000": Recall_1000})
 
     with open(os.path.join(out_dir, exp_name, 'metrics'+'-'+checkpoint+'.json'), "w") as json_file:
         json.dump(metrics, json_file, indent=4)
@@ -198,13 +209,13 @@ for checkpoint in checkpoints:
         'Recall@1': Recall_1,
         'Recall@5': Recall_5,
         'Recall@10': Recall_10,
-        'Recall@50': Recall_50
+        'Recall@50': Recall_50,
+        'Recall@100': Recall_100,
+        'Recall@500': Recall_500,
+        'Recall@1000': Recall_1000
     }])
     exp_results = pd.concat([exp_results, new_row], ignore_index=True)
     exp_results.to_csv(os.path.join(out_dir, exp_name, 'experiment_results.csv'), index=False)
-    
-    del model
-    torch.cuda.empty_cache()
 
 
 # In[ ]:

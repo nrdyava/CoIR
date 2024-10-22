@@ -1,4 +1,4 @@
-exp_name: 'FLAVA_inbatch_2en_ST_F_ON_GTY_LR_5e-6'       # Experiment name
+exp_name: 'FLAVA_inbatch_2en_ST_F_ON_GTY_LR_1e-5'       # Experiment name
 comments: 'Two trainable encoders, single task, only forward, FLAVA model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled'
 
 exp_type: 'flava_inbatch_2en_ST_F_ON_GT'       # choices: ['flava_inbatch_2en_ST_F_ON_GT']
@@ -35,7 +35,7 @@ dataloader:
 
 
 optimizer:
-  lr: 0.000005
+  lr: 0.00001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.0
