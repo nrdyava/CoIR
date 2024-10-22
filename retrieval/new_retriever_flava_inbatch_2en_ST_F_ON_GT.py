@@ -4,9 +4,9 @@
 # In[1]:
 
 
-device = 1
-exp_name = '2024-10-21-09-05-24-119618 + clip_inbatch_2en_ST_F_ON_GTY_VIT_L_14_LR_1e-5'
-batch_size=8
+device = 7
+exp_name = '2024-10-21-19-23-03-492338 + FLAVA_inbatch_2en_ST_F_ON_GTY_LR_1e-5'
+batch_size=256
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'
 runs_dir = '/proj/vondrick4/naveen/coir-runs'
@@ -15,15 +15,6 @@ lasco_data_path = '/local/vondrick/naveen/coir-data/LaSCo'
 device_map = 'cuda:{}'.format(device)
 
 
-# In[2]:
-
-
-clip_checkpoints = {
-    'CLIP-ViT-B/16': '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch16',
-    'CLIP-ViT-B/32': '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch32',
-    'CLIP-ViT-L/14': '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14',
-    'CLIP-ViT-L/14@336': '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14-336'
-}
 
 
 # In[3]:
@@ -35,7 +26,6 @@ import warnings
 warnings.filterwarnings("ignore")
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from transformers import CLIPVisionModelWithProjection, CLIPTextModelWithProjection
 import faiss
 import torch
 import numpy as np
@@ -43,10 +33,10 @@ import os
 import json
 import pandas as pd
 
-from src.datasets.lasco_corpus_dataset import lasco_corpus_dataset_clip
-from src.datasets.lasco_retrieval_dataset import lasco_retrieval_dataset_clip
+from src.datasets.lasco_corpus_dataset import lasco_corpus_dataset_flava
+from src.datasets.lasco_retrieval_dataset import lasco_retrieval_dataset_flava
 from src.metrics.metrics import calculate_recall
-from src.models.clip.inbatch_2en_ST_F_ON_GT import CLIPModel
+from src.models.flava.inbatch_2en_ST_F_ON_GT import FLAVA_Model
 
 
 # In[ ]:
@@ -93,7 +83,7 @@ for checkpoint in checkpoints:
     checkpoint_path = os.path.join(runs_dir, exp_name, checkpoint)
 
     print('Evaluating checkpoint: {}'.format(checkpoint))
-    model = CLIPModel.load_from_checkpoint(
+    model = FLAVA_Model.load_from_checkpoint(
         checkpoint_path = checkpoint_path, 
         map_location=device_map,
         strict=False
@@ -101,16 +91,15 @@ for checkpoint in checkpoints:
     model.eval()
     print('Model loaded')
 
-    clip_checkpoint_path = clip_checkpoints[model.config['model_type']]
     print('Using device: {}'.format(device_map))
 
-    d = model.image_encoder.config.projection_dim
+    d = model.model.config.projection_dim
     index = faiss.IndexFlatIP(d)
 
     res = faiss.StandardGpuResources()
     index = faiss.index_cpu_to_gpu(res, device, index)
 
-    corpus_dataset = lasco_corpus_dataset_clip(dataset_split, lasco_data_path, clip_checkpoint_path)
+    corpus_dataset = lasco_corpus_dataset_flava(dataset_split, lasco_data_path)
     corpus_dataloader = DataLoader(
         dataset=corpus_dataset,
         collate_fn=corpus_dataset.collate_fn,
@@ -122,7 +111,7 @@ for checkpoint in checkpoints:
         persistent_workers=True
     )
 
-    retrieval_dataset = lasco_retrieval_dataset_clip(dataset_split, lasco_data_path, clip_checkpoint_path)
+    retrieval_dataset = lasco_retrieval_dataset_flava(dataset_split, lasco_data_path)
     retrieval_dataloader = DataLoader(
         dataset=retrieval_dataset,
         collate_fn=retrieval_dataset.collate_fn,
@@ -159,6 +148,7 @@ for checkpoint in checkpoints:
         with torch.no_grad():
             batch['query-image']['pixel_values'] = batch['query-image']['pixel_values'].to(device_map)
             batch['query-text']['input_ids'] = batch['query-text']['input_ids'].to(device_map)
+            batch['query-text']['token_type_ids'] = batch['query-text']['token_type_ids'].to(device_map)
             batch['query-text']['attention_mask'] = batch['query-text']['attention_mask'].to(device_map)
         
             target_hat_embeds = model.img_txt_forward(batch)
@@ -216,100 +206,3 @@ for checkpoint in checkpoints:
     }])
     exp_results = pd.concat([exp_results, new_row], ignore_index=True)
     exp_results.to_csv(os.path.join(out_dir, exp_name, 'experiment_results.csv'), index=False)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
