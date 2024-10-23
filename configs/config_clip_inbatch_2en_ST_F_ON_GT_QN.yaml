@@ -1,8 +1,8 @@
-exp_name: 'FLAVA_inbatch_2en_ST_F_ON_GTY_LR_1e-4'       # Experiment name
-comments: 'Two trainable encoders, single task, only forward, FLAVA model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled'
+exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN'       # Experiment name
+comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, Queries as Hard Negatives to t_hat'
 
-exp_type: 'flava_inbatch_2en_ST_F_ON_GT'       # choices: ['flava_inbatch_2en_ST_F_ON_GT']
-model_type: 'FLAVA'        # choices: ['FLAVA']
+exp_type: 'clip_inbatch_2en_ST_F_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
+model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
 
@@ -19,11 +19,11 @@ text_encoder_mode: 'train' # choices: [train, freeze]
 data_augmentation:
   enable: True
 
-gather_embeddings: True
-find_unused_parameters: True
+gather_embeddings: False
+find_unused_parameters: False
 
 dataloader:
-  batch_size: 140
+  batch_size: 400
   num_workers: 5
   pin_memory: True
   shuffle:
@@ -35,7 +35,7 @@ dataloader:
 
 
 optimizer:
-  lr: 0.0001
+  lr: 0.00001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.0
@@ -50,7 +50,7 @@ loss_fn:
   #temp_clamp_max: 100
 
 trainer:
-  max_epochs: 30
+  max_epochs: 20
   min_epochs: 1
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
@@ -113,3 +113,11 @@ TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
 CUDA_LAUNCH_BLOCKING: '1'
 TORCH_USE_CUDA_DS: '1'
 float32_matmul_precision: high
+
+
+# CLIP Model Registry
+clip_checkpoints:
+  CLIP-ViT-B/16: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch16'
+  CLIP-ViT-B/32: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch32'
+  CLIP-ViT-L/14: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14'
+  CLIP-ViT-L/14@336: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14-336'

@@ -42,7 +42,7 @@ class CLIPModel(L.LightningModule):
                 param.requires_grad = False
         
         self.loss_fn = loss_fn_registry[config['loss_fn']['name']]
-        #self.gather_embeddings = config['gather_embeddings']
+        self.gather_embeddings = config['gather_embeddings']
         self.save_hyperparameters()
     
     
@@ -102,6 +102,7 @@ class CLIPModel(L.LightningModule):
         target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds)
         target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
         
+        query_image_embeds = self.normalize_embeddings(query_image_embeds)
         target_image_embeds = self.normalize_embeddings(target_image_embeds)
         
         if self.gather_embeddings and dist.is_initialized():
@@ -109,9 +110,11 @@ class CLIPModel(L.LightningModule):
             gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
             dist.all_gather(gathered_image_embeds, target_image_embeds)
             target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
             gpu_id = 0
+            target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         
         optimizer = self.optimizers()
@@ -150,9 +153,11 @@ class CLIPModel(L.LightningModule):
             gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
             dist.all_gather(gathered_image_embeds, target_image_embeds)
             target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
             gpu_id = 0
+            target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         
         
