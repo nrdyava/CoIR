@@ -107,9 +107,15 @@ class CLIPModel(L.LightningModule):
         
         if self.gather_embeddings and dist.is_initialized():
             gpu_id = dist.get_rank()
-            gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
-            dist.all_gather(gathered_image_embeds, target_image_embeds)
-            target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            
+            gathered_target_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_target_image_embeds, target_image_embeds)
+            target_image_embeds = torch.cat(gathered_target_image_embeds, dim=0)
+            
+            gathered_query_image_embeds = [torch.zeros_like(query_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_query_image_embeds, query_image_embeds)
+            query_image_embeds = torch.cat(gathered_query_image_embeds, dim=0)
+            
             target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
