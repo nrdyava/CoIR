@@ -7,6 +7,7 @@ from src.models.clip.inbatch_3en_MT_F_img_cap import CLIPModel as clip_inbatch_3
 from src.models.clip.inbatch_2en_ST_F_ON_GT import CLIPModel as clip_inbatch_2en_ST_F_ON_GT
 from src.models.flava.inbatch_2en_ST_F_ON_GT import FLAVA_Model as flava_inbatch_2en_ST_F_ON_GT
 from src.models.clip.inbatch_2en_ST_F_ON_GT_QN import CLIPModel as clip_inbatch_2en_ST_F_ON_GT_QN
+from src.models.clip.inbatch_2en_ST_F_ON_GT_QN_WA import CLIPModel as clip_inbatch_2en_ST_F_ON_GT_QN_WA
 
 model_module_registry = {
     'clip_inbatch_2en_ST_F': clip_inbatch_2en_ST_F, 
@@ -17,5 +18,6 @@ model_module_registry = {
     'clip_inbatch_3en_MT_F_img_cap': clip_inbatch_3en_MT_F_img_cap,
     'clip_inbatch_2en_ST_F_ON_GT': clip_inbatch_2en_ST_F_ON_GT,
     'flava_inbatch_2en_ST_F_ON_GT': flava_inbatch_2en_ST_F_ON_GT,
-    'clip_inbatch_2en_ST_F_ON_GT_QN': clip_inbatch_2en_ST_F_ON_GT_QN
+    'clip_inbatch_2en_ST_F_ON_GT_QN': clip_inbatch_2en_ST_F_ON_GT_QN,
+    'clip_inbatch_2en_ST_F_ON_GT_QN_WA': clip_inbatch_2en_ST_F_ON_GT_QN_WA
 }

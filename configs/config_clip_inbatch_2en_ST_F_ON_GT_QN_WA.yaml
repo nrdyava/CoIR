@@ -1,7 +1,7 @@
-exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN_LR_1e-4_GATHER'       # Experiment name
-comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, Queries as Hard Negatives to t_hat'
+exp_name: 'clip_inbatch_2en_ST_F_ON_GT_QN_WA_LR_1e-5'       # Experiment name
+comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, Queries as Hard Negatives to t_hat, Weighted addition of dual embeddings'
 
-exp_type: 'clip_inbatch_2en_ST_F_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
+exp_type: 'clip_inbatch_2en_ST_F_ON_GT_QN_WA'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
@@ -19,7 +19,7 @@ text_encoder_mode: 'train' # choices: [train, freeze]
 data_augmentation:
   enable: True
 
-gather_embeddings: True
+gather_embeddings: False
 find_unused_parameters: False
 
 dataloader:
@@ -35,7 +35,7 @@ dataloader:
 
 
 optimizer:
-  lr: 0.0001
+  lr: 0.00001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.0
