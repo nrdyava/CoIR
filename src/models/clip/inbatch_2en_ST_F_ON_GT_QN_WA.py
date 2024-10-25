@@ -33,8 +33,8 @@ class CLIPModel(L.LightningModule):
             local_files_only=True
             )
         # Define any extra model layers here
-        self.w_img = torch.nn.Parameter(torch.tensor(0.5))  # Initialize the weight for image and embeddings to equal values
-        self.w_txt = torch.nn.Parameter(torch.tensor(0.5))
+        #self.w_img = torch.nn.Parameter(torch.tensor(0.5))  # Initialize the weight for image and embeddings to equal values
+        self.w_txt = torch.nn.Parameter(torch.tensor(0.0))
         
         if self.image_encoder_mode == 'freeze':
             for param in self.image_encoder.parameters():
@@ -71,8 +71,8 @@ class CLIPModel(L.LightningModule):
     
     
     def fuse_embeddings(self, img_embeds, txt_embeds):
-        weights = torch.nn.functional.softmax(torch.stack([self.w_img, self.w_txt]), dim=0)
-        return weights[0]*img_embeds + weights[1]*txt_embeds
+        txt_weight = torch.nn.functional.sigmoid(100*self.w_txt)
+        return (1 - txt_weight)*img_embeds + txt_weight*txt_embeds
 
     def normalize_embeddings(self, embeds):
         return embeds / torch.linalg.vector_norm(embeds, ord=2, dim=1, keepdim=True)
@@ -135,7 +135,10 @@ class CLIPModel(L.LightningModule):
         self.log('train_acc', acc.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('logit_scale', self.logit_scale.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('learning_rate', current_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-
+        
+        txt_weight = torch.nn.functional.sigmoid(100*self.w_txt)
+        self.log('w_txt', txt_weight.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('w_img', (1 - txt_weight).detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
         ## Debug metrics here. Comment out when not needed
         #target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds[:, gpu_id * batch_size: (gpu_id+1) * batch_size], dim=1))
         #self.log('train_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
@@ -159,9 +162,15 @@ class CLIPModel(L.LightningModule):
         
         if self.gather_embeddings and dist.is_initialized():
             gpu_id = dist.get_rank()
-            gathered_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
-            dist.all_gather(gathered_image_embeds, target_image_embeds)
-            target_image_embeds = torch.cat(gathered_image_embeds, dim=0)
+            
+            gathered_target_image_embeds = [torch.zeros_like(target_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_target_image_embeds, target_image_embeds)
+            target_image_embeds = torch.cat(gathered_target_image_embeds, dim=0)
+            
+            gathered_query_image_embeds = [torch.zeros_like(query_image_embeds) for _ in range(dist.get_world_size())]
+            dist.all_gather(gathered_query_image_embeds, query_image_embeds)
+            query_image_embeds = torch.cat(gathered_query_image_embeds, dim=0)
+            
             target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
@@ -173,7 +182,7 @@ class CLIPModel(L.LightningModule):
         self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('val_avg_rank', avg_rank.detach().cpu().numpy().item(), on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('val_acc', acc.detach().cpu().numpy().item(), on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-
+        
         ## Debug metrics here. Comment out when not needed
         #target_hat_n_target_cosine_sim_mean = torch.mean(torch.nn.functional.cosine_similarity(target_hat_embeds, target_image_embeds[:, gpu_id * batch_size: (gpu_id+1) * batch_size], dim=1))
         #self.log('val_target_hat_n_target_cosine_sim_mean', target_hat_n_target_cosine_sim_mean, on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
