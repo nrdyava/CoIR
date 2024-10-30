@@ -8,7 +8,8 @@ exp_type_to_model_module_map = {
     'clip_inbatch_2en_ST_F_ON_GT': 'clip_inbatch_2en_ST_F_ON_GT',
     'flava_inbatch_2en_ST_F_ON_GT': 'flava_inbatch_2en_ST_F_ON_GT',
     'clip_inbatch_2en_ST_F_ON_GT_QN': 'clip_inbatch_2en_ST_F_ON_GT_QN',
-    'clip_inbatch_2en_ST_F_ON_GT_QN_WA': 'clip_inbatch_2en_ST_F_ON_GT_QN_WA'
+    'clip_inbatch_2en_ST_F_ON_GT_QN_WA': 'clip_inbatch_2en_ST_F_ON_GT_QN_WA',
+    'clip_inbatch_2en_MT_FR1_ON_GT_QN': 'clip_inbatch_2en_MT_FR1_ON_GT_QN'
 }
 
 exp_type_to_data_module_map = {
@@ -21,7 +22,8 @@ exp_type_to_data_module_map = {
     'clip_inbatch_2en_ST_F_ON_GT': 'generic_dm_with_dist_sampler',
     'flava_inbatch_2en_ST_F_ON_GT': 'generic_dm_with_dist_sampler_flava',
     'clip_inbatch_2en_ST_F_ON_GT_QN': 'generic_dm_with_dist_sampler',
-    'clip_inbatch_2en_ST_F_ON_GT_QN_WA': 'generic_dm_with_dist_sampler'
+    'clip_inbatch_2en_ST_F_ON_GT_QN_WA': 'generic_dm_with_dist_sampler',
+    'clip_inbatch_2en_MT_FR1_ON_GT_QN': 'generic_dm_with_dist_sampler'
 }
 
 def exp_type_to_model_module_mapper(config):
