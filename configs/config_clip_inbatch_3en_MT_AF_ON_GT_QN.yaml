@@ -1,7 +1,7 @@
-exp_name: 'clip_inbatch_2en_MT_FR1_ON_GT_QN_LR_1e-5'       # Experiment name
-comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - disabled, Queries as Hard Negatives to t_hat, reversal - 1, with targets as hard Negatives'
+exp_name: 'clip_inbatch_3en_MT_AF_ON_GT_QN_LR_1e-5'       # Experiment name
+comments: 'Three trainable encoders, multi task, alignment, forward, reverse-1, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - disabled, Queries as Hard Negatives to t_hat, reversal - 1, with targets as hard Negatives'
 
-exp_type: 'clip_inbatch_2en_MT_FR1_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
+exp_type: 'clip_inbatch_3en_MT_AF_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
@@ -13,7 +13,8 @@ resume_training_from_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with
 test_at_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
 
 image_encoder_mode: 'train' # choices: [train, freeze]
-text_encoder_mode: 'train' # choices: [train, freeze]
+text_encoder_mode_align: 'train' # choices: [train, freeze]
+text_encoder_mode_instruct: 'train' # choices: [train, freeze]
 
 
 data_augmentation:
@@ -23,7 +24,7 @@ gather_embeddings: False
 find_unused_parameters: False
 
 dataloader:
-  batch_size: 400
+  batch_size: 250
   num_workers: 5
   pin_memory: True
   shuffle:
@@ -44,9 +45,12 @@ optimizer:
 
 
 loss_fn:
-  name: 'contrastive_asymetric_loss_with_softmax_temp'
-  temperature: 0.01
-  train_temperature: True # choices: [True, False]
+  instruct_loss_name: 'contrastive_asymetric_loss_with_softmax_temp'
+  align_loss_name: 'contrastive_loss_with_softmax_temp'
+  temperature_align: 0.01
+  temperature_instruct: 0.01
+  train_temperature_align: True # choices: [True, False]
+  train_temperature_instruct: True # choices: [True, False]
   #temp_clamp_max: 100
 
 trainer:
@@ -55,7 +59,7 @@ trainer:
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
   strategy: 'ddp' #[deepspeed_stage_3, deepspeed_stage_2, ddp]
-  devices: [1, 2, 3, 4] #[0, 1, 2, 3, 4, 5, 6, 7]
+  devices: [0, 1, 2, 3, 4, 5, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
   use_distributed_sampler: True
   log_every_n_steps: 20
   enable_checkpointing: True
