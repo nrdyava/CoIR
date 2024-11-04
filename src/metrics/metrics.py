@@ -1,4 +1,6 @@
 import numpy as np
+from collections import defaultdict
+
 
 def calculate_recall(ground_truths, retrieved_candidates, k):
     """
@@ -18,3 +20,23 @@ def calculate_recall(ground_truths, retrieved_candidates, k):
     recall_at_k = np.mean(correct_predictions)
 
     return recall_at_k
+
+
+
+def calculate_APs(output, ranks):
+    aps_atk = defaultdict(list)
+    map_atk = {}
+    for sample in output:
+        gt_img_ids = np.array(sample['gt-image-ids'], dtype=int)
+        predictions = np.array(sample['top_1000_ret_cands'], dtype=int)
+        ap_labels = np.isin(predictions, gt_img_ids)
+        precisions = np.cumsum(ap_labels, axis=0) * ap_labels
+        precisions = precisions / np.arange(1, ap_labels.shape[0] + 1)
+        
+        for rank in ranks:
+            aps_atk[rank].append(float(np.sum(precisions[:rank]) / min(len(gt_img_ids), rank)))
+            
+    for rank in ranks:
+        map_atk[rank] = float(np.mean(aps_atk[rank]))
+        
+    return map_atk
