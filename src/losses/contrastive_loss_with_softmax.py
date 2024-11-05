@@ -47,5 +47,32 @@ def asymetric_loss_with_temp(target_hat_embeds, target_image_embeds, logit_scale
     loss = torch.nn.functional.cross_entropy(logits, labels)
     
     return loss, avg_rank, acc
+
+
+
+def asymetric_loss_with_temp_QN1(target_hat_embeds, target_image_embeds, logit_scale, gpu_id):
+    logits = torch.mm(target_hat_embeds, target_image_embeds.t())
+    
+    bs = logits.size(0)
+    #print("DEBUG: batch_size in loss: ", logits.size(1)) ## Comment this after debugging
+    labels = (gpu_id * bs + torch.arange(bs)).to(logits.device)
+    
+    fh = logits[:, :bs]
+    sh = torch.diagonal(logits[:, bs:]).unsqueeze(1)
+    logits = torch.cat([fh, sh], dim = 1)
+    
+    #print("logits size ", logits.size())
+    diagonal_elements = torch.diag(logits[:, gpu_id * bs: (gpu_id+1) * bs])
+    #print("diag_size ", diagonal_elements.size())
+    avg_rank = torch.sum(logits >= diagonal_elements.unsqueeze(1), dim = 1).float().mean()
+    
+    _max_score, max_idxs = torch.max(logits, 1)
+    acc = (max_idxs == labels).sum() / bs
+    
+    logits = logits*torch.clamp(logit_scale.exp(), max=100)
+    
+    loss = torch.nn.functional.cross_entropy(logits, labels)
+    
+    return loss, avg_rank, acc
     
     

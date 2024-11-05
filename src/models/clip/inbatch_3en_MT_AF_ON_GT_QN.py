@@ -72,7 +72,7 @@ class CLIPModel(L.LightningModule):
         query_text = batch['query-text']
         
         query_image_embeds = self.image_encoder(**query_image).image_embeds
-        query_text_embeds = self.text_encoder(**query_text).text_embeds
+        query_text_embeds = self.text_encoder_instruct(**query_text).text_embeds
         
         target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds, dir = 'forward')
         target_hat_embeds = self.normalize_embeddings(target_hat_embeds)

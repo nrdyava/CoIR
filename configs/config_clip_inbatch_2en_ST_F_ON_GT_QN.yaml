@@ -1,5 +1,5 @@
-exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN_LR_1e-4_GATHER'       # Experiment name
-comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, Queries as Hard Negatives to t_hat'
+exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN_LR_1e-5_QN1'       # Experiment name
+comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, One Queries as Hard Negative to t_hat'
 
 exp_type: 'clip_inbatch_2en_ST_F_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
@@ -19,7 +19,7 @@ text_encoder_mode: 'train' # choices: [train, freeze]
 data_augmentation:
   enable: True
 
-gather_embeddings: True
+gather_embeddings: False
 find_unused_parameters: False
 
 dataloader:
@@ -35,27 +35,27 @@ dataloader:
 
 
 optimizer:
-  lr: 0.0001
+  lr: 0.00001
   name: 'AdamW'   # choices: ['AdamW']
   warmup_steps: 0
   weight_decay: 0.0
   # LR Scheduler parameters (ConsineAnnealingLR)
-  eta_min: 0.0
+  eta_min: 0.000001
 
 
 loss_fn:
-  name: 'contrastive_asymetric_loss_with_softmax_temp'
+  name: 'contrastive_asymetric_loss_with_softmax_temp_QN1' # choices: ['contrastive_asymetric_loss_with_softmax_temp', 'contrastive_asymetric_loss_with_softmax_temp_QN1']
   temperature: 0.01
   train_temperature: True # choices: [True, False]
   #temp_clamp_max: 100
 
 trainer:
-  max_epochs: 30
+  max_epochs: 20
   min_epochs: 1
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
   strategy: 'ddp' #[deepspeed_stage_3, deepspeed_stage_2, ddp]
-  devices: [0, 1, 2, 3, 4, 5, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
+  devices: [0, 1, 2, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
   use_distributed_sampler: True
   log_every_n_steps: 20
   enable_checkpointing: True
