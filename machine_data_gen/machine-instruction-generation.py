@@ -93,7 +93,7 @@ conversation_template = [
 model_name = 'meta-llama/Meta-Llama-3.1-8B-Instruct'
 llm = LLM(
     model=model_name, 
-    tensor_parallel_size=2, 
+    tensor_parallel_size=1, 
     download_dir=cache_dir,
     dtype='bfloat16'
 )
@@ -113,7 +113,7 @@ sampling_params = SamplingParams(
 # In[44]:
 
 
-split = 'train'
+split = 'val'
 if split == 'train':
     data = json.load(open('/proj/vondrick4/naveen/coir-data/LaSCo/metadata/lasco_train_indexed_MT(img_cap).json', 'r'))
     imgs_and_caps = json.load(open('/proj/vondrick4/naveen/coir-data/annotations/images_and_caps_train2014_processed_dict.json', 'r'))
@@ -194,6 +194,6 @@ for sample in data:
 # In[49]:
 
 
-with open('/proj/vondrick4/naveen/coir-data/LaSCo/metadata/lasco_{}_indexed_MT(img_cap)_MG.json'.format(split), 'w') as json_file:
+with open('/proj/vondrick4/naveen/coir-data/LaSCo/metadata/lasco_{}_indexed_MT(img_cap)_MG_CV14.json'.format(split), 'w') as json_file:
     json.dump(data, json_file, indent=4)
 
