@@ -66,6 +66,12 @@ class CLIPModel(L.LightningModule):
         image_embeds = self.image_encoder(**image).image_embeds
         image_embeds = self.normalize_embeddings(image_embeds)
         return {'image-embeds': image_embeds}
+
+    def text_forward(self, batch):
+        text = batch['text']
+        text_embeds = self.text_encoder_align(**text).text_embeds
+        text_embeds = self.normalize_embeddings(text_embeds)
+        return {'text-embeds': text_embeds}
     
     
     def img_txt_forward(self, batch):
