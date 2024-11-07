@@ -1,0 +1,131 @@
+exp_name: 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG_LR_1e-5'       # Experiment name
+comments: 'Three trainable encoders, multi task, alignment, forward, reverse-1, CLIP-ViT-B/32 model finetuning, split optimization, Only one normalization after addition, multi-GPU matrix gathered training - disabled, Queries as Hard Negatives to t_hat, reversal - 1, with targets as hard Negatives'
+
+exp_type: 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG'       # choices: ['clip_inbatch_2en_ST_F']
+model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
+task: 'finetune'        # choices: [finetune, continue_training, test_only]
+dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
+
+#pretrained_checkpoint_path: '/proj/vondrick2/naveen/pretrained_models/clip/clip-vit-base-patch32'
+#checkpoint_path: '/local/vondrick/nd2794/pretrained_models/clip/clip-vit-base-patch32'
+resume_training_from_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+#resume_from_checkpoint: None
+test_at_checkpoint: '/proj/vondrick4/naveen/coir-runs/{replace-with-suitable-run-name}/{checkpoint}'  # Lightning checkpoint path
+
+image_encoder_mode: 'train' # choices: [train, freeze]
+text_encoder_mode_align: 'train' # choices: [train, freeze]
+text_encoder_mode_instruct: 'train' # choices: [train, freeze]
+
+
+p_mg: 1.0
+
+data_augmentation:
+  enable: True
+
+gather_embeddings: False
+find_unused_parameters: True
+
+dataloader:
+  batch_size: 200
+  num_workers: 5
+  pin_memory: True
+  shuffle:
+    train: True
+    val: False
+    test: False
+  persistent_workers: True
+  drop_last: False
+
+
+optimizer:
+  align_optimizer:
+    name: 'AdamW'   # choices: ['AdamW']
+    lr: 0.00001
+    weight_decay: 0.0
+    warmup_steps: 0
+    eta_min: 0.000001
+  instruct_optimizer:
+    name: 'AdamW'   # choices: ['AdamW']
+    lr: 0.00001
+    weight_decay: 0.0
+    warmup_steps: 0
+    eta_min: 0.000001
+
+
+loss_fn:
+  instruct_loss_name: 'contrastive_asymetric_loss_with_softmax_temp'
+  align_loss_name: 'contrastive_loss_with_softmax_temp'
+  temperature_align: 0.01
+  temperature_instruct: 0.01
+  train_temperature_align: False # choices: [True, False]
+  train_temperature_instruct: False # choices: [True, False]
+  #temp_clamp_max: 100
+
+trainer:
+  max_epochs: 20
+  min_epochs: 1
+  check_val_every_n_epoch: 1
+  accelerator: 'gpu' 
+  strategy: 'ddp' #[deepspeed_stage_3, deepspeed_stage_2, ddp]
+  devices: [0, 1, 2, 3] #[0, 1, 2, 3, 4, 5, 6, 7]
+  use_distributed_sampler: True
+  log_every_n_steps: 20
+  enable_checkpointing: True
+  fast_dev_run: False
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 0.1
+  limit_predict_batches: 0.1
+  profiler: 'None' # ['None', 'simple', 'advanced', 'pytorch']
+  num_nodes: 1
+  precision: '32-true'
+  num_sanity_val_steps: 0
+  enable_progress_bar: True
+  enable_model_summary: True
+  deterministic: True
+  benchmark: True
+  model_checkpoint_callback:
+    every_n_epochs: 1
+    monitor: 'val_loss'
+    mode: 'min'
+    save_top_k: -1  # 0 means no saving, -1 means save all.
+    filename: 'checkpoint-{epoch:03d}'
+    enable_version_counter: False
+
+
+wandb:
+  project: coir
+
+runs_dir: '/proj/vondrick4/naveen/coir-runs'
+run_registry_file: '/proj/vondrick4/naveen/coir-run-registry.txt'
+
+
+data:
+  lasco:
+    dir: '/local/vondrick/naveen/coir-data/LaSCo'
+    splits: ['train', 'val']
+  fashioniq:
+    dir: '/local/vondrick/naveen/coir-data/FashionIQ'
+    splits: ['train', 'val', 'test']
+  cirr:
+    dir: '/local/vondrick/naveen/coir-data/CIRR'
+    splits: ['train', 'val', 'test1']
+  circo:
+    dir: '/local/vondrick/naveen/coir-data/CIRCO'
+    splits: ['val', 'test']
+
+
+seed: 42
+local_time_zone: 'US/Eastern'
+TOKENIZERS_PARALLELISM: 'true'    # choices: ['true', 'false']
+CUDA_LAUNCH_BLOCKING: '1'
+TORCH_USE_CUDA_DS: '1'
+float32_matmul_precision: high
+
+
+# CLIP Model Registry
+clip_checkpoints:
+  CLIP-ViT-B/16: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch16'
+  CLIP-ViT-B/32: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-base-patch32'
+  CLIP-ViT-L/14: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14'
+  CLIP-ViT-L/14@336: '/local/vondrick/naveen/pretrained_models/clip/clip-vit-large-patch14-336'

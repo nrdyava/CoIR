@@ -16,6 +16,7 @@ if __name__ == "__main__":
     os.environ['CUDA_LAUNCH_BLOCKING'] = config['CUDA_LAUNCH_BLOCKING']
     os.environ['TORCH_USE_CUDA_DS'] = config['TORCH_USE_CUDA_DS']
     torch.set_float32_matmul_precision(config['float32_matmul_precision'])
+    torch.autograd.set_detect_anomaly(True)
 
     # sets seeds for numpy, torch and python.random.
     seed_everything(config['seed'], workers=True)
