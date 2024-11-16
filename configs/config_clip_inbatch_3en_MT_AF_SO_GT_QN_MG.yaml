@@ -1,4 +1,4 @@
-exp_name: 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG_LR_1e-5'       # Experiment name
+exp_name: 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG_LR_1e-5_PMG_0.5'       # Experiment name
 comments: 'Three trainable encoders, multi task, alignment, forward, reverse-1, CLIP-ViT-B/32 model finetuning, split optimization, Only one normalization after addition, multi-GPU matrix gathered training - disabled, Queries as Hard Negatives to t_hat, reversal - 1, with targets as hard Negatives'
 
 exp_type: 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG'       # choices: ['clip_inbatch_2en_ST_F']
@@ -17,7 +17,7 @@ text_encoder_mode_align: 'train' # choices: [train, freeze]
 text_encoder_mode_instruct: 'train' # choices: [train, freeze]
 
 
-p_mg: 1.0
+p_mg: 0.5
 
 data_augmentation:
   enable: True

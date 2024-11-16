@@ -3,7 +3,7 @@
 
 
 device = 4
-exp_name = '2024-11-06-22-57-32-856388 + clip_inbatch_3en_MT_AF_SO_GT_QN_MG_LR_1e-5'
+exp_name = '2024-11-07-13-03-15-093706 + clip_inbatch_3en_MT_AF_SO_GT_QN_MG_LR_1e-5_PMG_0.5'
 batch_size=64
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'

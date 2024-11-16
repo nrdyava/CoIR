@@ -154,7 +154,8 @@ class CLIPModel(L.LightningModule):
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
             gpu_id = 0
-            target_image_embeds_concat = torch.cat([target_image_embeds, query_image_embeds], dim=0)
+            #target_image_embeds_concat = torch.cat([target_image_embeds, query_image_embeds], dim=0)
+            target_image_embeds_concat = torch.cat([target_image_embeds], dim=0)
             
             loss_for, avg_rank_for, acc_for = self.loss_fn_instruct(target_hat_embeds, target_image_embeds_concat, self.logit_scale_for, gpu_id)
             loss_align = self.loss_fn_align(align_image_embeds, align_text_embeds, self.logit_scale_align)

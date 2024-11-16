@@ -2,8 +2,8 @@
 # coding: utf-8
 
 
-device = 3
-exp_name = '2024-11-06-23-35-05-828549 + clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG_LR_1e-5'
+device = 4
+exp_name = '2024-11-07-13-05-37-818962 + clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG_LR_1e-5_PMG_0.5'
 batch_size=64
 
 out_dir = '/proj/vondrick4/naveen/coir-ret-results'
