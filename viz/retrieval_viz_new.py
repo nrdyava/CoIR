@@ -4,9 +4,15 @@ import streamlit as st
 from PIL import Image
 
 
-input_file = '/proj/vondrick4/naveen/coir-ret-results/2024-10-23-11-36-10-962931 + clip_inbatch_2en_ST_F_ON_GTY_QN/outputs-checkpoint-epoch=004.ckpt.json'
+input_file = '/proj/vondrick4/naveen/coir-ret-results/2024-11-07-13-05-37-818962 + clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG_LR_1e-5_PMG_0.5/outputs-checkpoint-epoch=002.ckpt.json'
 lasco_data_path = '/local/vondrick/naveen/coir-data/LaSCo'
-samples = json.load(open(input_file, 'r'))
+
+@st.cache_data
+def load_data(file_path):
+    data = json.load(open(file_path, 'r'))
+    return data
+
+samples = load_data(input_file)
 
 
 def get_image_path(image_id):

@@ -1,4 +1,4 @@
-exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN_LR_1e-5_QN1'       # Experiment name
+exp_name: 'clip_inbatch_2en_ST_F_ON_GTY_QN_LR_1e-5_Temp_0.07'       # Experiment name
 comments: 'Two trainable encoders, single task, only forward, CLIP-ViT-B/32 model finetuning, Only one normalization after addition, multi-GPU matrix gathered training - enabled, One Queries as Hard Negative to t_hat'
 
 exp_type: 'clip_inbatch_2en_ST_F_ON_GT_QN'       # choices: ['clip_inbatch_2en_ST_F']
@@ -44,9 +44,9 @@ optimizer:
 
 
 loss_fn:
-  name: 'contrastive_asymetric_loss_with_softmax_temp_QN1' # choices: ['contrastive_asymetric_loss_with_softmax_temp', 'contrastive_asymetric_loss_with_softmax_temp_QN1']
-  temperature: 0.01
-  train_temperature: True # choices: [True, False]
+  name: 'contrastive_asymetric_loss_with_softmax_temp' # choices: ['contrastive_asymetric_loss_with_softmax_temp', 'contrastive_asymetric_loss_with_softmax_temp_QN1']
+  temperature: 0.07
+  train_temperature: False # choices: [True, False]
   #temp_clamp_max: 100
 
 trainer:
@@ -55,7 +55,7 @@ trainer:
   check_val_every_n_epoch: 1
   accelerator: 'gpu' 
   strategy: 'ddp' #[deepspeed_stage_3, deepspeed_stage_2, ddp]
-  devices: [0, 1, 2, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
+  devices: [0, 1, 2, 3, 4, 5, 6, 7] #[0, 1, 2, 3, 4, 5, 6, 7]
   use_distributed_sampler: True
   log_every_n_steps: 20
   enable_checkpointing: True
