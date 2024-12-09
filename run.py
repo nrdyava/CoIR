@@ -21,4 +21,8 @@ if __name__ == "__main__":
     # sets seeds for numpy, torch and python.random.
     seed_everything(config['seed'], workers=True)
 
+    # For training the model
     task_processor(config)
+    
+    ## Evaluate the model
+    
