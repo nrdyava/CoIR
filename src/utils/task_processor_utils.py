@@ -15,7 +15,8 @@ exp_type_to_model_module_map = {
     'clip_inbatch_3en_MT_AF_SO_GT_QN_MG': 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG',
     'clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG': 'clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG',
     'clip_inbatch_3en_MT_AF_SO_GT_QN_MG': 'clip_inbatch_3en_MT_AF_SO_GT_QN_MG',
-    'clip_inbatch_3en_MT_ADM_SO': 'clip_inbatch_3en_MT_ADM_SO'
+    'clip_inbatch_3en_MT_ADM_SO': 'clip_inbatch_3en_MT_ADM_SO',
+    'clip_inbatch_3en_MT_A3C_SO': 'clip_inbatch_3en_MT_A3C_SO'
 }
 
 exp_type_to_data_module_map = {
@@ -34,7 +35,8 @@ exp_type_to_data_module_map = {
     'clip_inbatch_3en_MT_AF_SO_GT_QN': 'MT_3en_F_img_caps_dm_with_dist_sampler',
     'clip_inbatch_3en_MT_AF_SO_GT_QN_MG': 'MT_3en_AF_MG_dm_with_dist_sampler',
     'clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG': 'MT_3en_AFR2_MG_dm_with_dist_sampler',
-    'clip_inbatch_3en_MT_ADM_SO': 'MT_3en_F_img_caps_dm_with_dist_sampler'
+    'clip_inbatch_3en_MT_ADM_SO': 'MT_3en_F_img_caps_dm_with_dist_sampler',
+    'clip_inbatch_3en_MT_A3C_SO': 'MT_3en_F_img_caps_dm_with_dist_sampler'
 }
 
 def exp_type_to_model_module_mapper(config):

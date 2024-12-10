@@ -14,6 +14,7 @@ from src.models.clip.inbatch_3en_MT_AF_SO_GT_QN import CLIPModel as clip_inbatch
 from src.models.clip.inbatch_3en_MT_AF_SO_GT_QN_MG import CLIPModel as clip_inbatch_3en_MT_AF_SO_GT_QN_MG
 from src.models.clip.inbatch_3en_MT_AFR2_SO_GT_QN_MG import CLIPModel as clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG
 from src.models.clip.inbatch_3en_MT_ADM_SO import CLIPModel as clip_inbatch_3en_MT_ADM_SO
+from src.models.clip.inbatch_3en_MT_A3C_SO import CLIPModel as clip_inbatch_3en_MT_A3C_SO
 
 model_module_registry = {
     'clip_inbatch_2en_ST_F': clip_inbatch_2en_ST_F, 
@@ -31,5 +32,6 @@ model_module_registry = {
     'clip_inbatch_3en_MT_AF_SO_GT_QN': clip_inbatch_3en_MT_AF_SO_GT_QN,
     'clip_inbatch_3en_MT_AF_SO_GT_QN_MG': clip_inbatch_3en_MT_AF_SO_GT_QN_MG,
     'clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG': clip_inbatch_3en_MT_AFR2_SO_GT_QN_MG,
-    'clip_inbatch_3en_MT_ADM_SO': clip_inbatch_3en_MT_ADM_SO
+    'clip_inbatch_3en_MT_ADM_SO': clip_inbatch_3en_MT_ADM_SO,
+    'clip_inbatch_3en_MT_A3C_SO': clip_inbatch_3en_MT_A3C_SO
 }
