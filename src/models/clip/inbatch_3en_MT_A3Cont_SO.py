@@ -56,7 +56,7 @@ class CLIPModel(L.LightningModule):
         self.loss_fn_align = loss_fn_registry[config['loss_fn']['align_loss_name']]
         # TODO: Implement this loss function
         self.loss_fn_instruct = loss_fn_registry[config['loss_fn']['instruct_loss_name']]
-        self.loss_fn_instruct_DM = torch.nn.MSELoss()
+        #self.loss_fn_instruct_DM = torch.nn.MSELoss()
         
         self.gather_embeddings = config['gather_embeddings']
         self.automatic_optimization = False
@@ -144,9 +144,10 @@ class CLIPModel(L.LightningModule):
         query_hat_embeds = self.fuse_embeddings(target_image_embeds, -query_text_embeds, dir = 'forward')
         query_hat_embeds = self.normalize_embeddings(query_hat_embeds)
         
-        query_text_embeds_normalized = self.normalize_embeddings(query_text_embeds)
-        instruct_1_hat_normalized = self.normalize_embeddings(instruct_1_hat)
-
+        query_image_embeds = self.normalize_embeddings(query_image_embeds)
+        target_image_embeds = self.normalize_embeddings(target_image_embeds)
+        query_text_embeds = self.normalize_embeddings(query_text_embeds)
+        instruct_1_hat = self.normalize_embeddings(instruct_1_hat)
         
         if self.gather_embeddings and dist.is_initialized():
             gpu_id = dist.get_rank()
@@ -166,7 +167,7 @@ class CLIPModel(L.LightningModule):
             #target_image_embeds_concat = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             #target_image_embeds_concat = torch.cat([target_image_embeds], dim=0)
             
-            loss_instruct_1 = self.loss_fn_instruct(instruct_1_hat_normalized, query_text_embeds_normalized, self.logit_scale_instruct, gpu_id)
+            loss_instruct_1 = self.loss_fn_instruct(instruct_1_hat, query_text_embeds, self.logit_scale_instruct, gpu_id)
             loss_for, avg_rank_for, acc_for = self.loss_fn_instruct(target_hat_embeds, target_image_embeds, self.logit_scale_instruct, gpu_id)
             loss_rev, avg_rank_rev, acc_rev = self.loss_fn_instruct(query_hat_embeds, query_image_embeds, self.logit_scale_instruct, gpu_id)
             loss_instruct = (loss_instruct_1 + loss_for + loss_rev)/3.0
