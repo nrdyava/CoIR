@@ -6,7 +6,6 @@ from transformers import CLIPVisionModelWithProjection, CLIPTextModelWithProject
 
 from src.models.model_utils import optimizer_dict
 from src.losses import loss_fn_registry
-from deepspeed.ops.adam import FusedAdam
 
 
 class CLIPModel(L.LightningModule):
@@ -23,6 +22,10 @@ class CLIPModel(L.LightningModule):
         self.logit_scale_align = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.config['loss_fn']['temperature_align']))
         if not self.config['loss_fn']['train_temperature_align']:
             self.logit_scale_align.requires_grad = False
+            
+        self.logit_scale_instruct = torch.nn.Parameter(torch.ones([]) * np.log(1 / self.config['loss_fn']['temperature_instruct']))
+        if not self.config['loss_fn']['train_temperature_instruct']:
+            self.logit_scale_instruct.requires_grad = False
 
         # Models
         self.image_encoder = CLIPVisionModelWithProjection.from_pretrained(
@@ -52,7 +55,8 @@ class CLIPModel(L.LightningModule):
         # TODO: Look at the loss function and see if any changes are needed
         self.loss_fn_align = loss_fn_registry[config['loss_fn']['align_loss_name']]
         # TODO: Implement this loss function
-        self.loss_fn_instruct = torch.nn.MSELoss()
+        self.loss_fn_instruct = loss_fn_registry[config['loss_fn']['instruct_loss_name']]
+        self.loss_fn_instruct_DM = torch.nn.MSELoss()
         
         self.gather_embeddings = config['gather_embeddings']
         self.automatic_optimization = False
@@ -133,8 +137,12 @@ class CLIPModel(L.LightningModule):
         align_text_embeds = self.normalize_embeddings(align_text_embeds)
         
         instruct_1_hat = target_image_embeds - query_image_embeds
-        instruct_2_hat = query_image_embeds + query_text_embeds
-        instruct_3_hat = target_image_embeds - query_text_embeds
+        
+        target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds, dir = 'forward')
+        target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
+        
+        query_hat_embeds = self.fuse_embeddings(target_image_embeds, -query_text_embeds, dir = 'forward')
+        query_hat_embeds = self.normalize_embeddings(query_hat_embeds)
 
         
         if self.gather_embeddings and dist.is_initialized():
@@ -151,18 +159,18 @@ class CLIPModel(L.LightningModule):
             target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
-            #gpu_id = 0
+            gpu_id = 0
             #target_image_embeds_concat = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             #target_image_embeds_concat = torch.cat([target_image_embeds], dim=0)
             
-            loss_instruct_1 = self.loss_fn_instruct(instruct_1_hat, query_text_embeds)
-            loss_instruct_2 = self.loss_fn_instruct(instruct_2_hat, target_image_embeds)
-            loss_instruct_3 = self.loss_fn_instruct(instruct_3_hat, query_image_embeds)
-            loss_instruct = (loss_instruct_1 + loss_instruct_2 + loss_instruct_3)/3
+            loss_instruct_1 = self.loss_fn_instruct_DM(instruct_1_hat, query_text_embeds)
+            loss_for, avg_rank_for, acc_for = self.loss_fn_instruct(target_hat_embeds, target_image_embeds, self.logit_scale_instruct, gpu_id)
+            loss_rev, avg_rank_rev, acc_rev = self.loss_fn_instruct(query_hat_embeds, query_image_embeds, self.logit_scale_instruct, gpu_id)
+            loss_instruct = (loss_instruct_1 + loss_for + loss_rev)/3.0
             
             loss_align = self.loss_fn_align(align_image_embeds, align_text_embeds, self.logit_scale_align)
             
-            loss = (loss_instruct + loss_align)/2
+            loss = (loss_instruct + loss_align)/2.0
         
         
         optimizer_align = self.optimizers()[0]
@@ -185,14 +193,17 @@ class CLIPModel(L.LightningModule):
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('train_loss_instruct', loss_instruct, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('train_loss_instruct_1', loss_instruct_1, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('train_loss_instruct_2', loss_instruct_2, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('train_loss_instruct_3', loss_instruct_3, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('train_loss_for', loss_for, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('train_loss_rev', loss_rev, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('train_loss_align', loss_align, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         
-        #self.log('train_avg_rank_for', avg_rank_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)        
-        #self.log('train_acc_for', acc_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('train_avg_rank_for', avg_rank_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)        
+        self.log('train_acc_for', acc_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         
-        #self.log('logit_scale_for', self.logit_scale_for.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('train_avg_rank_rev', avg_rank_rev.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)        
+        self.log('train_acc_rev', acc_rev.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        
+        self.log('logit_scale_instruct', self.logit_scale_instruct.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('logit_scale_align', self.logit_scale_align.exp().detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         
         #self.log('learning_rate', current_lr, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
@@ -225,8 +236,12 @@ class CLIPModel(L.LightningModule):
         align_text_embeds = self.normalize_embeddings(align_text_embeds)
         
         instruct_1_hat = target_image_embeds - query_image_embeds
-        instruct_2_hat = query_image_embeds + query_text_embeds
-        instruct_3_hat = target_image_embeds - query_text_embeds
+        
+        target_hat_embeds = self.fuse_embeddings(query_image_embeds, query_text_embeds, dir = 'forward')
+        target_hat_embeds = self.normalize_embeddings(target_hat_embeds)
+        
+        query_hat_embeds = self.fuse_embeddings(target_image_embeds, -query_text_embeds, dir = 'forward')
+        query_hat_embeds = self.normalize_embeddings(query_hat_embeds)
         
         if self.gather_embeddings and dist.is_initialized():
             gpu_id = dist.get_rank()
@@ -242,24 +257,31 @@ class CLIPModel(L.LightningModule):
             target_image_embeds = torch.cat([target_image_embeds, query_image_embeds], dim=0)
             loss, avg_rank, acc = self.loss_fn(target_hat_embeds, target_image_embeds, self.logit_scale, gpu_id)
         else:
-            #gpu_id = 0
+            gpu_id = 0
             #target_image_embeds_concat = torch.cat([target_image_embeds, query_image_embeds], dim=0)
+            #target_image_embeds_concat = torch.cat([target_image_embeds], dim=0)
             
-            loss_instruct_1 = self.loss_fn_instruct(instruct_1_hat, query_text_embeds)
-            loss_instruct_2 = self.loss_fn_instruct(instruct_2_hat, target_image_embeds)
-            loss_instruct_3 = self.loss_fn_instruct(instruct_3_hat, query_image_embeds)
-            loss_instruct = (loss_instruct_1 + loss_instruct_2 + loss_instruct_3)/3
+            loss_instruct_1 = self.loss_fn_instruct_DM(instruct_1_hat, query_text_embeds)
+            loss_for, avg_rank_for, acc_for = self.loss_fn_instruct(target_hat_embeds, target_image_embeds, self.logit_scale_instruct, gpu_id)
+            loss_rev, avg_rank_rev, acc_rev = self.loss_fn_instruct(query_hat_embeds, query_image_embeds, self.logit_scale_instruct, gpu_id)
+            loss_instruct = (loss_instruct_1 + loss_for + loss_rev)/3.0
             
             loss_align = self.loss_fn_align(align_image_embeds, align_text_embeds, self.logit_scale_align)
             
-            loss = (loss_instruct + loss_align)/2
+            loss = (loss_instruct + loss_align)/2.0
    
-        self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('val_loss_instruct', loss_instruct, on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('val_loss_instruct', loss_instruct, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         self.log('val_loss_instruct_1', loss_instruct_1, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('val_loss_instruct_2', loss_instruct_2, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('val_loss_instruct_3', loss_instruct_3, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
-        self.log('val_loss_align', loss_align, on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('val_loss_for', loss_for, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('val_loss_rev', loss_rev, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        self.log('val_loss_align', loss_align, on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        
+        self.log('val_avg_rank_for', avg_rank_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)        
+        self.log('val_acc_for', acc_for.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
+        
+        self.log('val_avg_rank_rev', avg_rank_rev.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)        
+        self.log('val_acc_rev', acc_rev.detach().cpu().numpy().item(), on_step=True, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         
         #self.log('val_avg_rank_for', avg_rank_for.detach().cpu().numpy().item(), on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)
         #self.log('val_acc_for', acc_for.detach().cpu().numpy().item(), on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True, batch_size = batch_size)

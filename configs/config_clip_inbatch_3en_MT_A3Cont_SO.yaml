@@ -1,7 +1,7 @@
-exp_name: 'clip_inbatch_3en_MT_A3C_SO_LR_1e-5'       # Experiment name
+exp_name: 'clip_inbatch_3en_MT_A3Cont_SO_LR_1e-5'       # Experiment name
 comments: 'Three trainable encoders, multi task, alignment, difference matching, CLIP-ViT-B/32 model finetuning, split optimization, multi-GPU matrix gathered training - disabled'
 
-exp_type: 'clip_inbatch_3en_MT_A3C_SO'       # choices: ['clip_inbatch_2en_ST_F']
+exp_type: 'clip_inbatch_3en_MT_A3Cont_SO'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]

@@ -1,7 +1,7 @@
-exp_name: 'clip_inbatch_3en_MT_A3C_SO_LR_1e-5'       # Experiment name
+exp_name: 'clip_inbatch_3en_MT_AR1CDM_SO_LR_1e-5'       # Experiment name
 comments: 'Three trainable encoders, multi task, alignment, difference matching, CLIP-ViT-B/32 model finetuning, split optimization, multi-GPU matrix gathered training - disabled'
 
-exp_type: 'clip_inbatch_3en_MT_A3C_SO'       # choices: ['clip_inbatch_2en_ST_F']
+exp_type: 'clip_inbatch_3en_MT_AR1CDM_SO'       # choices: ['clip_inbatch_2en_ST_F']
 model_type: 'CLIP-ViT-B/32'        # choices: [CLIP-ViT-B/32, CLIP-ViT-B/16, CLIP-ViT-L/14, CLIP-ViT-L/14@336]
 task: 'finetune'        # choices: [finetune, continue_training, test_only]
 dataset_to_use: 'lasco'       # choices: [lasco, fashioniq, cirr, circo]
@@ -45,13 +45,13 @@ optimizer:
   instruct_optimizer:
     name: 'AdamW'   # choices: ['AdamW']
     lr: 0.00001
-    weight_decay: 0.001
+    weight_decay: 0.01
     warmup_steps: 0
     eta_min: 0.000001
 
 
 loss_fn:
-  instruct_loss_name: 'MSE'
+  instruct_loss_name: 'contrastive_asymetric_loss_with_softmax_temp'
   align_loss_name: 'contrastive_loss_with_softmax_temp'
   temperature_align: 0.01
   temperature_instruct: 0.01
